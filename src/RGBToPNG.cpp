@@ -1,9 +1,4 @@
-#include "lodepng.hpp"
-#include <stdio.h>
-
-#define ALPHA 255
-#define DEFAULT_WIDTH 520
-#define DEFAULT_HEIGHT 520
+#include "RGBToPNG.hpp"
 
 void convertToRGBA(uint32_t *image_rgb32) {
     int rgbaBufferSize = (sizeof(image_rgb32) / sizeof(uint32_t)) + (sizeof(uint32_t));
