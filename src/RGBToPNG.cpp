@@ -16,3 +16,20 @@ void generatePNG(const char* fileName, const uint32_t *image_rgba32, int width, 
     unsigned error = lodepng::encode(fileName, image, width, height);
     error ? printf("Error trying to save PNG %s\n", lodepng_error_text(error)) : printf("PNG image saved as \"%s\"\n", fileName);
 }
+
+char* generateImageName(){
+    // Fetching current time and local time
+    std::time_t curTime = std::time(nullptr);
+    std::tm* localTime = std::localtime(&curTime);
+
+    // Formating date and time strings
+    std::stringstream ss;
+    ss << std::put_time(localTime, "%Y%m%d-%H%M%S");
+
+    // Copying from string to char*
+    std::string timeStr = ss.str();
+    char* timeChar = new char[timeStr.size() + 1];
+    std::strcpy(timeChar, timeStr.c_str());
+
+    return timeChar;
+}

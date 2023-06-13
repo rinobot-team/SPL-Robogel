@@ -4,31 +4,6 @@
 
 #include "yuv422ToRGB.hpp"
 
-int yuv422_read(const char *filename, uint8_t **image_yuv422) {
-    FILE *in;
-    long length;
-
-    *image_yuv422 = NULL;
-
-    in = fopen(filename, "rb");
-
-    if(in == NULL){
-        printf("Could not open file \n");
-        return 0;
-    }
-
-    fseek(in, 0, SEEK_END);
-    length = ftell(in);
-    fseek(in, 0, SEEK_SET);
-
-    *image_yuv422 = (uint8_t *)malloc(length);
-
-    length = fread(*image_yuv422, 1, length, in);
-    fclose(in);
-
-    return length;
-}
-
 void yuv422_to_rgb32_float(uint8_t *image_yuv422, uint32_t *image_rgb32, int width, int height) {
     uint8_t *u_buffer, *v_buffer;
     float u1, uv1, v1;
