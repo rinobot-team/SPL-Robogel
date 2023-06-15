@@ -20,8 +20,10 @@ add_executable(${PROJECT_NAME}
 		camera/NaoCamera.cpp
 		utils/Timer.hpp
 		utils/Timer.cpp
-		main.cpp
+		lib/lodepng.cpp
+		lib/lodepng.hpp
+		src/main.cpp
 )
 target_link_libraries(${PROJECT_NAME} Boost::system) 
-target_include_directories(${PROJECT_NAME} PUBLIC .)
+target_include_directories(${PROJECT_NAME} PUBLIC . lib camera)
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
