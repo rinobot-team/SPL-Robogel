@@ -1,6 +1,6 @@
 #include "RGBToPNG.hpp"
 
-void convertToRGBA(uint32_t *image_rgb32) {
+void convertoToRGBA(uint32_t *image_rgb32) {
     int rgbaBufferSize = (sizeof(image_rgb32) / sizeof(uint32_t)) + (sizeof(uint32_t));
     uint32_t image_rgba32[rgbaBufferSize];
 

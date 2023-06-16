@@ -21,6 +21,12 @@ add_executable(${PROJECT_NAME}
 		utils/Timer.hpp
 		utils/Timer.cpp
 		main.cpp
+		lib/lodepng.hpp
+		lib/lodepng.cpp
+		src/yuv422ToRGB.hpp
+		src/yuv422ToRGB.cpp
+		src/RGBToPNG.hpp
+		src/RGBToPNG.cpp
 )
 target_link_libraries(${PROJECT_NAME} Boost::system) 
 target_include_directories(${PROJECT_NAME} PUBLIC .)
