@@ -1,9 +1,9 @@
-set(CMAKE_HOST_SYSTEM "Linux-4.15.0-212-generic")
+set(CMAKE_HOST_SYSTEM "Linux-5.19.0-43-generic")
 set(CMAKE_HOST_SYSTEM_NAME "Linux")
-set(CMAKE_HOST_SYSTEM_VERSION "4.15.0-212-generic")
+set(CMAKE_HOST_SYSTEM_VERSION "5.19.0-43-generic")
 set(CMAKE_HOST_SYSTEM_PROCESSOR "x86_64")
 
-include("/home/vagrant/SPL-Robogel/cross-config.cmake")
+include("/home/y3t/RinoRobocup/SPL-Robogel/cross-config.cmake")
 
 set(CMAKE_SYSTEM "Linux")
 set(CMAKE_SYSTEM_NAME "Linux")

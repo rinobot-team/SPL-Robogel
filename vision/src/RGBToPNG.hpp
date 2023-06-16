@@ -1,7 +1,7 @@
 #ifndef _RGBTOPNG_H
 #define _RGBTOPNG_H
 
-#include "lodepng.hpp"
+#include "../lib/lodepng.hpp"
 #include <stdio.h>
 #include <ctime>
 #include <sstream>

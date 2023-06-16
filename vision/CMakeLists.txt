@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(Robogel)
+project(Robogel-Vision)
 
 # set(CMAKE_TOOLCHAIN_FILE /home/vagrant/vai/cross-config.cmake CACHE)
 

@@ -34,3 +34,6 @@
 # Depracated / Dead Code
 *.old
 *.backup
+
+# Toolchain
+/softwares/ctc-linux64-atom-2.8.5.10

@@ -116,4 +116,4 @@ void yuv422_to_rgb32_int(uint8_t *image_yuv422, uint32_t *image_rgb32, int width
 
         y_ptr += 2;
     }
-}
+} 
