@@ -39,10 +39,11 @@ int main(int argc, char* argv[]){
 
     uint8_t *imageBuffer;
     memcpy(imageBuffer, camBuffer, bufferSize);
-
+    /*
     for (int j = 0; j < bufferSize; j++) {
         cout << "BufferValues[" << j << "]: " << static_cast<int>(camBuffer[j]) << endl;
     }
+    */
 
     
     // Converting from YUV422 to RGB32
@@ -51,6 +52,10 @@ int main(int argc, char* argv[]){
 
     // Expanding to RGBA
     convertoToRGBA(RGBBuffer);
+
+    for (int i = 0; i < bufferSize * 4; i++) {
+        cout << "RGBBuffer Values["<< i << "]: " << static_cast<int>(RGBBuffer[i]) << endl;
+    }
 
     /*
     // Generating PNG Image
