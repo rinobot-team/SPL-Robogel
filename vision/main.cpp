@@ -55,10 +55,10 @@ int main(int argc, char* argv[]){
     yuv422_to_rgb32_int(imageBuffer, RGBBuffer, IMAGE_WIDTH, IMAGE_HEIGHT);
     // Expanding to RGBA
     //convertoToRGBA(RGBBuffer, bufferTam * 4);
-    convertToRGBA(RGBBuffer, RGBABuffer, bufferTam * 4);
+    //convertToRGBA(RGBBuffer, RGBABuffer, bufferTam * 4);
 
-    for (int i = 0; i < bufferTam; i++) {
-        cout << "RGBBuffer Values["<< i << "]: " << static_cast<int>(RGBABuffer[i]) << endl;
+    for (int i = 0; i < bufferTam / 2; i++) {
+        cout << "RGBBuffer Values["<< i << "]: " << static_cast<int>(RGBBuffer[i]) << endl;
     }
 
 
