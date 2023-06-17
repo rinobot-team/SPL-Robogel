@@ -20,14 +20,25 @@
 using namespace boost::asio;
 using namespace std;
 
-static bool lola_shutdown = false;
-
+	float last_pos;
+	
 	//Lola's State
-	bool lola_stand = false;
-	bool lola_isStanding = false;
-	bool lola_isFalling = false;
-	bool lola_fallen = false;
+	static bool lola_shutdown = false;
 	bool lola_sit_forever = false;
+	enum class Lola_state{
+		begin,
+		stand,
+		standing1,
+		standing2,
+		//standingF,
+		//standingB,
+		fallingF,
+		fallingB,
+		fallen,
+		sit
+	};
+	Lola_state lola_state = Lola_state::begin;
+	Lola_state lola_last_state;
 
 /*bool contato(float front, float back){
 	cout << "Front: " << front << endl;
@@ -62,29 +73,86 @@ bool caindo(float fsrR[], float fsrL[]){
 bool fallen(IMU imu, float right[], float left[]){
 	float Az = imu.accel.z;
 
+	//Gyr
+	float pitch = imu.gyr.pitch; // Front / Back
+	float roll = imu.gyr.roll; // Right / Left
+
 	float foot = 0;
 	for(int c = 0; c < 4; c++){
 		foot += right[c] + left[c];
 	}
 
-	if(Az > -1 && foot < 1){
-		cout << "FALLEN!!" << endl;
+	if(Az > -1 && foot < 1 && (pitch > -0.6 || pitch < 0.6)){
 		return true;
 	}
 	else
 		return false;
 }
 
-bool isFalling(IMU imu){
+bool isStanding(IMU imu){
 	float Ax = imu.accel.x;
 	float Ay = imu.accel.y;
 	float Az = imu.accel.z;
 
-	if((Ax > -4.5 && Ax < 4.5) && (Ay > -4.5 && Ay < 4.5) && (Az < -7) && (Az != 0))
-		return false;
-	else{
-		cout << "Falling!!!" << endl;
+	//Gyr
+	float pitch = imu.gyr.pitch; // Front / Back
+	float roll = imu.gyr.roll; // Right / Left
+
+	if((Ax > -4.5 || Ax < 4.5) || (Ay > -4.5 || Ay < 4.5) && (Az > -1.5 && Az < 1.5) && (last_pos > Az)){
 		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool isFallingF(IMU imu){
+	//Acell
+	float Ax = imu.accel.x;
+	float Ay = imu.accel.y;
+	float Az = imu.accel.z;
+
+	//Gyr
+	float pitch = imu.gyr.pitch; // Front / Back
+	float roll = imu.gyr.roll; // Right / Left
+
+	if((Ax < -4.5 || Ax > 4.5) || (Ay < -4.5 || Ay > 4.5) && (Az > -7 && Az < -1.5) && (last_pos < Az)){
+		if(pitch > 1.1){
+			lola_last_state = lola_state;
+			lola_state = Lola_state::fallingF;
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	else{
+		return false;
+	}
+}
+
+bool isFallingB(IMU imu){
+	//Acell
+	float Ax = imu.accel.x;
+	float Ay = imu.accel.y;
+	float Az = imu.accel.z;
+
+	//Gyr
+	float pitch = imu.gyr.pitch; // Front / Back
+	float roll = imu.gyr.roll; // Right / Left
+
+	if((Ax < -4.5 || Ax > 4.5) || (Ay < -4.5 || Ay > 4.5) && (Az > -7 && Az < -1.5) && (last_pos < Az)){
+		if(pitch < -1.1){
+			lola_last_state = lola_state;
+			lola_state = Lola_state::fallingB;
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	else{
+		return false;
 	}
 }
 
@@ -109,6 +177,8 @@ void ctrlc_handler(int) {
 }
 
 int main(int, char*[]) {
+	cout << "oi!!" << endl;
+
 	auto sit_motion = SitMotion();
 	auto ankle_balancer = AnkleBalancer();
 	auto arm_controller = ArmController();
@@ -121,7 +191,10 @@ int main(int, char*[]) {
 
 	io_service io_service;
 	local::stream_protocol::socket socket(io_service);
+	cout << "oi1.5!!" << endl;
+
 	socket.connect("/tmp/robocup");
+	cout << "oi2!!" << endl;
 
 	constexpr int max_len = 100000;
 	char data[max_len] = {'\0'};
@@ -130,6 +203,7 @@ int main(int, char*[]) {
 	int pra_frente = 0;
 	int pro_lado = 0;
 	while (true) {
+		cout << "oi3!" << endl;
 		//Declarações
 		const LolaSensorFrame& sensor_frame = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
 		auto& joints = frame_handler.actuator_frame.joints;
@@ -137,8 +211,14 @@ int main(int, char*[]) {
 		auto& battery = sensor_frame.battery;
 		auto& fsr = sensor_frame.fsr;
 		auto& imu = sensor_frame.imu;
+		auto& gyr = sensor_frame.imu.gyr;
 		float fsrR[4] = {fsr.right.fl, fsr.right.fr, fsr.right.rl, fsr.right.rr};
 		float fsrL[4] = {fsr.left.fl, fsr.left.fr, fsr.left.rl, fsr.left.rr};
+
+		//GYR
+		cout << "Pitch: " << gyr.pitch << endl;
+		cout << "Roll: " << gyr.roll << endl;
+		cout << "Yaw: " << gyr.yaw << endl;
 
 		//status battery
 		cout << "Bateria: " << battery.charge << '\n';
@@ -156,10 +236,9 @@ int main(int, char*[]) {
         }
 		
 		//TODO: Insert walking engine and stuff here. :)
-		if (/*client_connected &&*/ !lola_shutdown && !lola_sit_forever && !lola_isFalling && !lola_fallen) {
+		if (/*client_connected &&*/ !lola_shutdown && !lola_sit_forever && (lola_state == Lola_state::begin || lola_state == Lola_state::standing1 || lola_state == Lola_state::stand)){
 			if (!sit_motion.isStanding()) {
-				lola_isStanding = true;
-				lola_stand = false;
+				lola_state = Lola_state::standing1;
 				joints.head[HeadPitch] = {.angle = 0.3f, .stiffness = 1.f};
 				joints.legs = sit_motion.getUp(sensor_frame.joints.legs, ankle_balancer, &arm_controller);
 				joints.arms = arm_controller.proceed();
@@ -167,24 +246,30 @@ int main(int, char*[]) {
 				// TODO: You probably want to have a few else if statements here for things that should override the walking, e.g. getting up.
 			} 
 			else{
-				lola_isStanding = false;
-				lola_stand = true;
+				lola_state = Lola_state::stand;
+				cout << "Stand!" << endl;
 				//joints.legs = walking_engine.proceed(sensor_frame.fsr, imu_filter.angles.pitch, imu_filter.angles.roll, ankle_balancer,
 				joints.arms = arm_controller.proceed();
 				joints.legs = walking_engine.proceed(sensor_frame.fsr, 0.1, 0, ankle_balancer,sensor_frame.imu.gyr.yaw, &odo, &arm_controller);
 
-				if(isFalling(sensor_frame.imu)){
-					lola_stand = false;
-					lola_isFalling = true;
+				if(isFallingB(sensor_frame.imu)){
+					lola_last_state = lola_state;
+					lola_state = Lola_state::fallingB;
 				}
-				else if(seguro(fsrR, fsrL) && lola_stand){
+				else if(isFallingF(sensor_frame.imu)){
+					lola_last_state = lola_state;
+					lola_state = Lola_state::fallingF;
+				}
+				
+				if(seguro(fsrR, fsrL) && lola_state == Lola_state::stand){
+					last_pos = imu.accel.z;
 					//cout << "No chao!" << endl;
 					/*if(pra_frente < 1000 && pro_lado == 0){
 						//cout << "Pra frente " << pra_frente << endl;
 						walking_engine.setRequest(0.07, 0, 0, 0.1);
 						pra_frente++;
 					}
-					else if(pro_lado < 400 && pra_frente == 400){
+					/*else if(pro_lado < 400 && pra_frente == 400){
 						//cout << "Pro lado " << pro_lado << endl;
 						walking_engine.setRequest(0.07, 0, 1, 0.1);
 						pro_lado++;
@@ -202,25 +287,33 @@ int main(int, char*[]) {
 				}
 			}
 		}
-		else if(lola_isFalling){
+		else if((lola_state == Lola_state::fallingB || lola_state == Lola_state::fallingF) && lola_last_state != Lola_state::fallen){
 			cout << "Falling!" << endl;
 			if(fallen(sensor_frame.imu, fsrR, fsrL)){
-				lola_isFalling = false;
-				lola_fallen = true;
+				lola_last_state = lola_state;
+				lola_state = Lola_state::fallen;
 			}
 			else{
-				set_stiffness(0.f, &frame_handler.actuator_frame.joints.legs);
+				//set_stiffness(0.f, &frame_handler.actuator_frame.joints.legs);
 				//set_stiffness(0.f, &frame_handler.actuator_frame.joints.arms);
-				set_stiffness(0.f, &frame_handler.actuator_frame.joints.head);
+				//set_stiffness(0.f, &frame_handler.actuator_frame.joints.head);
 			}
 		}
-		else if(lola_fallen){
+		else if(lola_state == Lola_state::fallen){
 			cout << "FALLEN!!!" << endl;
-			if(imu.accel.z < -9.f){
-				lola_fallen = false;
-				lola_stand = true;
-				joints.arms = arm_controller.proceed();
-				joints.legs = walking_engine.proceed(sensor_frame.fsr, 0.1, 0, ankle_balancer,sensor_frame.imu.gyr.yaw, &odo, &arm_controller);
+			if(isStanding(sensor_frame.imu)){
+				lola_last_state = lola_state;
+				lola_state = Lola_state::standing2;
+			}
+		}
+		else if(lola_state == Lola_state::standing2 && lola_last_state == Lola_state::fallen){
+			cout << "Standing..." << endl;
+			if((!isFallingB(sensor_frame.imu) || !isFallingF(sensor_frame.imu)) && !fallen(sensor_frame.imu, fsrR, fsrL) && seguro(fsrR, fsrL)){
+				lola_last_state = lola_state;
+				lola_state = Lola_state::stand;
+			}
+			else if(fallen(sensor_frame.imu, fsrR, fsrL)){
+				lola_state = Lola_state::fallen;
 			}
 		}
 		else{

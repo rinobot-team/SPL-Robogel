@@ -21,7 +21,7 @@ void ctrlc_handler(int) {
     lola_shutdown = true;
 }
 
-int main(int, char*[]) {
+/*int main(int, char*[]) {
     // Register some handlers so we can clean-up when we're killed.
     signal(SIGINT, ctrlc_handler);
     signal(SIGTERM, ctrlc_handler);
@@ -58,4 +58,4 @@ int main(int, char*[]) {
         }
     }
     return 0;
-}
+}*/
