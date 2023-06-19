@@ -33,14 +33,11 @@ int main(int argc, char* argv[]){
 
     NaoCamera *cam= new NaoCamera("/dev/video-bottom", IO_METHOD_MMAP, kVGA);
     const uint8_t *camBuffer = cam->get(V4L2_PIX_FMT_YUYV);
-    size_t bufferSize = IMAGE_WIDTH * IMAGE_HEIGHT *2;
-    
-
-    cout << "Buffers Size: " << bufferSize << " bytes" << endl;
 
     //uint8_t *imageBuffer = const_cast<uint8_t*>(camBuffer);
-    int bufferTam = static_cast<int>(IMAGE_WIDTH) * static_cast<int>(IMAGE_HEIGHT) * 2;
-    uint8_t *imageBuffer = new uint8_t[bufferTam];
+    int bufferSize = static_cast<int>(IMAGE_WIDTH) * static_cast<int>(IMAGE_HEIGHT) * 2;
+    cout << "Buffers Size: " << bufferSize << " bytes" << endl;
+    uint8_t *imageBuffer = new uint8_t[bufferSize];
     memcpy(imageBuffer, camBuffer, bufferSize);
     //memcpy(imageBuffer, camBuffer, bufferSize);
     /*
@@ -50,15 +47,16 @@ int main(int argc, char* argv[]){
     */
 
     // Converting from YUV422 to RGB32
-    uint32_t *RGBBuffer = new uint32_t[bufferTam * 4];
-    uint32_t *RGBABuffer = new uint32_t[bufferTam * 4];
-    yuv422_to_rgb32_int(imageBuffer, RGBBuffer, IMAGE_WIDTH, IMAGE_HEIGHT);
+    //uint32_t *RGBBuffer = new uint32_t[bufferSize * 4];
+    //uint32_t *RGBABuffer = new uint32_t[bufferSize * 4];
+    uint8_t RGBABuffer[bufferSize];
+    yuv422_to_rgb32(imageBuffer, RGBABuffer, IMAGE_WIDTH, IMAGE_HEIGHT);
     // Expanding to RGBA
-    //convertoToRGBA(RGBBuffer, bufferTam * 4);
-    //convertToRGBA(RGBBuffer, RGBABuffer, bufferTam * 4);
+    //convertoToRGBA(RGBBuffer, bufferSize * 4);
+    //convertToRGBA(RGBBuffer, RGBABuffer, bufferSize * 4);
 
-    for (int i = 0; i < bufferTam / 2; i++) {
-        cout << "RGBBuffer Values["<< i << "]: " << static_cast<int>(RGBBuffer[i]) << endl;
+    for (int i = 0; i < bufferSize / 2; i++) {
+        cout << "RGBBuffer Values["<< i << "]: " << (RGBABuffer[i]) << endl;
     }
 
 
