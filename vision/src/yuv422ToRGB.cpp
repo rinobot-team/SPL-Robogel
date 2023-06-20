@@ -4,12 +4,12 @@
 
 #include "yuv422ToRGB.hpp"
 
-void yuv422_to_rgb32(const uint8_t *image_yuv422, uint8_t *rgbaData, int width, int height) {
+void yuv422_to_rgb32(const uint8_t *image_yuv422, uint32_t *rgbaData, int width, int height) {
     int length = width * height;
     int yIndex = 0;
     int uvIndex = length;
 
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i+= 2) {
         uint8_t y0 = image_yuv422[yIndex++];
         uint8_t u = image_yuv422[uvIndex++];
         uint8_t y1 = image_yuv422[yIndex++];
@@ -36,16 +36,12 @@ void yuv422_to_rgb32(const uint8_t *image_yuv422, uint8_t *rgbaData, int width, 
         g1 = (g1 < 0) ? 0 : ((g1 > 255) ? 255 : g1);
         b1 = (b1 < 0) ? 0 : ((b1 > 255) ? 255 : b1);
 
-        // Assigning the values to the fist bytes of the RGB
-        rgbaData[i * 4] = static_cast<uint8_t>(r0);
-        rgbaData[i * 4 + 1] = static_cast<uint8_t>(g0);
-        rgbaData[i * 4 + 2] = static_cast<uint8_t>(b0);
-        rgbaData[i * 4 + 3] = 255; // Alpha value. Opacity always at max.
+        // Combine RGBA components into a single uint32_t value
+        uint32_t rgba0 = (r0 << 24) | (g0 << 16) | (b0 << 8) | 0xFF;
+        uint32_t rgba1 = (r1 << 24) | (g1 << 16) | (b1 << 8) | 0xFF;
 
-        rgbaData[(i + 1) * 4] = static_cast<uint8_t>(r1);
-        rgbaData[(i + 1) * 4 + 1] = static_cast<uint8_t>(g1);
-        rgbaData[(i + 1) * 4 + 2] = static_cast<uint8_t>(b1);
-        rgbaData[(i + 1) * 4 + 3] = 255; // Alpha value. Opacity always at max.
+        rgbaData[i] = rgba0;
+        rgbaData[i + 1] = rgba1;
     }
 }
 

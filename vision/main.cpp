@@ -35,7 +35,7 @@ int main(int argc, char* argv[]){
     const uint8_t *camBuffer = cam->get(V4L2_PIX_FMT_YUYV);
 
     //uint8_t *imageBuffer = const_cast<uint8_t*>(camBuffer);
-    int bufferSize = static_cast<int>(IMAGE_WIDTH) * static_cast<int>(IMAGE_HEIGHT) * 2;
+    int bufferSize = static_cast<int>(IMAGE_WIDTH) * static_cast<int>(IMAGE_HEIGHT);
     cout << "Buffers Size: " << bufferSize << " bytes" << endl;
     uint8_t *imageBuffer = new uint8_t[bufferSize];
     memcpy(imageBuffer, camBuffer, bufferSize);
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]){
     // Converting from YUV422 to RGB32
     //uint32_t *RGBBuffer = new uint32_t[bufferSize * 4];
     //uint32_t *RGBABuffer = new uint32_t[bufferSize * 4];
-    uint8_t RGBABuffer[bufferSize];
+    uint32_t RGBABuffer[bufferSize * 4];
     yuv422_to_rgb32(imageBuffer, RGBABuffer, IMAGE_WIDTH, IMAGE_HEIGHT);
     // Expanding to RGBA
     //convertoToRGBA(RGBBuffer, bufferSize * 4);
@@ -59,11 +59,8 @@ int main(int argc, char* argv[]){
         cout << "RGBBuffer Values["<< i << "]: " << (RGBABuffer[i]) << endl;
     }
 
-
-    /*
     // Generating PNG Image
-    generatePNG(generateImageName(), RGBBuffer, IMAGE_WIDTH, IMAGE_HEIGHT);
-    */
+    generatePNG(generateImageName(), RGBABuffer, IMAGE_WIDTH, IMAGE_HEIGHT);
 
     delete cam;
 

@@ -6,8 +6,8 @@
 #include "Camera.hpp"
 #include "CameraDefinitions.hpp"
 #include "NaoCameraDefinitions.hpp"
-#include "types/alvisiondefinitions.h"
-#include "types/CameraSettings.hpp"
+#include "../types/alvisiondefinitions.h"
+#include "../types/CameraSettings.hpp"
 
 class Blackboard;
 
