@@ -47,6 +47,7 @@ char* generateImageName(){
 
     // Copying from string to char*
     std::string timeStr = ss.str();
+    timeStr.append(".png");
     char* timeChar = new char[timeStr.size() + 1];
     std::strcpy(timeChar, timeStr.c_str());
 
