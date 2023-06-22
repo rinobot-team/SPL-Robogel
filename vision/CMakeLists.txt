@@ -23,10 +23,10 @@ add_executable(${PROJECT_NAME}
 		main.cpp
 		lib/lodepng.hpp
 		lib/lodepng.cpp
-		src/yuv422ToRGB.hpp
-		src/yuv422ToRGB.cpp
-		src/RGBToPNG.hpp
-		src/RGBToPNG.cpp
+		src/yuvToRGBA.hpp
+		src/yuvToRGBA.cpp
+		src/rgbaToPNG.hpp
+		src/rgbaToPNG.cpp
 )
 target_link_libraries(${PROJECT_NAME} Boost::system) 
 target_include_directories(${PROJECT_NAME} PUBLIC .)

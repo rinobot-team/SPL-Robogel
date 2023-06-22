@@ -249,53 +249,53 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-src/RGBToPNG.o: src/RGBToPNG.cpp.o
-.PHONY : src/RGBToPNG.o
+src/rgbaToPNG.o: src/rgbaToPNG.cpp.o
+.PHONY : src/rgbaToPNG.o
 
 # target to build an object file
-src/RGBToPNG.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.o
-.PHONY : src/RGBToPNG.cpp.o
+src/rgbaToPNG.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.o
+.PHONY : src/rgbaToPNG.cpp.o
 
-src/RGBToPNG.i: src/RGBToPNG.cpp.i
-.PHONY : src/RGBToPNG.i
+src/rgbaToPNG.i: src/rgbaToPNG.cpp.i
+.PHONY : src/rgbaToPNG.i
 
 # target to preprocess a source file
-src/RGBToPNG.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.i
-.PHONY : src/RGBToPNG.cpp.i
+src/rgbaToPNG.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.i
+.PHONY : src/rgbaToPNG.cpp.i
 
-src/RGBToPNG.s: src/RGBToPNG.cpp.s
-.PHONY : src/RGBToPNG.s
+src/rgbaToPNG.s: src/rgbaToPNG.cpp.s
+.PHONY : src/rgbaToPNG.s
 
 # target to generate assembly for a file
-src/RGBToPNG.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.s
-.PHONY : src/RGBToPNG.cpp.s
+src/rgbaToPNG.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.s
+.PHONY : src/rgbaToPNG.cpp.s
 
-src/yuv422ToRGB.o: src/yuv422ToRGB.cpp.o
-.PHONY : src/yuv422ToRGB.o
+src/yuvToRGBA.o: src/yuvToRGBA.cpp.o
+.PHONY : src/yuvToRGBA.o
 
 # target to build an object file
-src/yuv422ToRGB.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.o
-.PHONY : src/yuv422ToRGB.cpp.o
+src/yuvToRGBA.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.o
+.PHONY : src/yuvToRGBA.cpp.o
 
-src/yuv422ToRGB.i: src/yuv422ToRGB.cpp.i
-.PHONY : src/yuv422ToRGB.i
+src/yuvToRGBA.i: src/yuvToRGBA.cpp.i
+.PHONY : src/yuvToRGBA.i
 
 # target to preprocess a source file
-src/yuv422ToRGB.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.i
-.PHONY : src/yuv422ToRGB.cpp.i
+src/yuvToRGBA.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.i
+.PHONY : src/yuvToRGBA.cpp.i
 
-src/yuv422ToRGB.s: src/yuv422ToRGB.cpp.s
-.PHONY : src/yuv422ToRGB.s
+src/yuvToRGBA.s: src/yuvToRGBA.cpp.s
+.PHONY : src/yuvToRGBA.s
 
 # target to generate assembly for a file
-src/yuv422ToRGB.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.s
-.PHONY : src/yuv422ToRGB.cpp.s
+src/yuvToRGBA.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Robogel-Vision.dir/build.make CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.s
+.PHONY : src/yuvToRGBA.cpp.s
 
 types/CameraSettings.o: types/CameraSettings.cpp.o
 .PHONY : types/CameraSettings.o
@@ -369,12 +369,12 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... src/RGBToPNG.o"
-	@echo "... src/RGBToPNG.i"
-	@echo "... src/RGBToPNG.s"
-	@echo "... src/yuv422ToRGB.o"
-	@echo "... src/yuv422ToRGB.i"
-	@echo "... src/yuv422ToRGB.s"
+	@echo "... src/rgbaToPNG.o"
+	@echo "... src/rgbaToPNG.i"
+	@echo "... src/rgbaToPNG.s"
+	@echo "... src/yuvToRGBA.o"
+	@echo "... src/yuvToRGBA.i"
+	@echo "... src/yuvToRGBA.s"
 	@echo "... types/CameraSettings.o"
 	@echo "... types/CameraSettings.i"
 	@echo "... types/CameraSettings.s"

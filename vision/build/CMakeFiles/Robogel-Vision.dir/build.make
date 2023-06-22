@@ -167,33 +167,33 @@ CMakeFiles/Robogel-Vision.dir/lib/lodepng.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Robogel-Vision.dir/lib/lodepng.cpp.s"
 	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/y3t/RinoRobocup/SPL-Robogel/vision/lib/lodepng.cpp -o CMakeFiles/Robogel-Vision.dir/lib/lodepng.cpp.s
 
-CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.o: CMakeFiles/Robogel-Vision.dir/flags.make
-CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.o: ../src/yuv422ToRGB.cpp
-CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.o: CMakeFiles/Robogel-Vision.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/y3t/RinoRobocup/SPL-Robogel/vision/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.o"
-	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.o -MF CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.o.d -o CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.o -c /home/y3t/RinoRobocup/SPL-Robogel/vision/src/yuv422ToRGB.cpp
+CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.o: CMakeFiles/Robogel-Vision.dir/flags.make
+CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.o: ../src/yuvToRGBA.cpp
+CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.o: CMakeFiles/Robogel-Vision.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/y3t/RinoRobocup/SPL-Robogel/vision/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.o"
+	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.o -MF CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.o.d -o CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.o -c /home/y3t/RinoRobocup/SPL-Robogel/vision/src/yuvToRGBA.cpp
 
-CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.i"
-	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/y3t/RinoRobocup/SPL-Robogel/vision/src/yuv422ToRGB.cpp > CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.i
+CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.i"
+	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/y3t/RinoRobocup/SPL-Robogel/vision/src/yuvToRGBA.cpp > CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.i
 
-CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.s"
-	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/y3t/RinoRobocup/SPL-Robogel/vision/src/yuv422ToRGB.cpp -o CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.s
+CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.s"
+	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/y3t/RinoRobocup/SPL-Robogel/vision/src/yuvToRGBA.cpp -o CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.s
 
-CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.o: CMakeFiles/Robogel-Vision.dir/flags.make
-CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.o: ../src/RGBToPNG.cpp
-CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.o: CMakeFiles/Robogel-Vision.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/y3t/RinoRobocup/SPL-Robogel/vision/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.o"
-	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.o -MF CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.o.d -o CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.o -c /home/y3t/RinoRobocup/SPL-Robogel/vision/src/RGBToPNG.cpp
+CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.o: CMakeFiles/Robogel-Vision.dir/flags.make
+CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.o: ../src/rgbaToPNG.cpp
+CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.o: CMakeFiles/Robogel-Vision.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/y3t/RinoRobocup/SPL-Robogel/vision/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.o"
+	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.o -MF CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.o.d -o CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.o -c /home/y3t/RinoRobocup/SPL-Robogel/vision/src/rgbaToPNG.cpp
 
-CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.i"
-	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/y3t/RinoRobocup/SPL-Robogel/vision/src/RGBToPNG.cpp > CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.i
+CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.i"
+	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/y3t/RinoRobocup/SPL-Robogel/vision/src/rgbaToPNG.cpp > CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.i
 
-CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.s"
-	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/y3t/RinoRobocup/SPL-Robogel/vision/src/RGBToPNG.cpp -o CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.s
+CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.s"
+	/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/y3t/RinoRobocup/SPL-Robogel/vision/src/rgbaToPNG.cpp -o CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.s
 
 # Object files for target Robogel-Vision
 Robogel__Vision_OBJECTS = \
@@ -204,8 +204,8 @@ Robogel__Vision_OBJECTS = \
 "CMakeFiles/Robogel-Vision.dir/utils/Timer.cpp.o" \
 "CMakeFiles/Robogel-Vision.dir/main.cpp.o" \
 "CMakeFiles/Robogel-Vision.dir/lib/lodepng.cpp.o" \
-"CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.o" \
-"CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.o"
+"CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.o" \
+"CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.o"
 
 # External object files for target Robogel-Vision
 Robogel__Vision_EXTERNAL_OBJECTS =
@@ -217,8 +217,8 @@ Robogel-Vision: CMakeFiles/Robogel-Vision.dir/camera/NaoCamera.cpp.o
 Robogel-Vision: CMakeFiles/Robogel-Vision.dir/utils/Timer.cpp.o
 Robogel-Vision: CMakeFiles/Robogel-Vision.dir/main.cpp.o
 Robogel-Vision: CMakeFiles/Robogel-Vision.dir/lib/lodepng.cpp.o
-Robogel-Vision: CMakeFiles/Robogel-Vision.dir/src/yuv422ToRGB.cpp.o
-Robogel-Vision: CMakeFiles/Robogel-Vision.dir/src/RGBToPNG.cpp.o
+Robogel-Vision: CMakeFiles/Robogel-Vision.dir/src/yuvToRGBA.cpp.o
+Robogel-Vision: CMakeFiles/Robogel-Vision.dir/src/rgbaToPNG.cpp.o
 Robogel-Vision: CMakeFiles/Robogel-Vision.dir/build.make
 Robogel-Vision: /home/y3t/RinoRobocup/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux/usr/lib/libboost_system-mt.so
 Robogel-Vision: CMakeFiles/Robogel-Vision.dir/link.txt
