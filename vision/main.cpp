@@ -46,8 +46,18 @@ int main(int argc, char* argv[]){
         
         uint8_t* bufferRGBA = new uint8_t[bufferSizeRGBA];
         convertYuvToRGBA(bufferYuv, bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT);
+        
+        std::string image_filename("imagem" + std::to_string(count) + ".rgba");
+        std::ofstream file(image_filename, std::ios::binary);
+        if (file.is_open()) {
+		file.write(reinterpret_cast<const char*>(bufferRGBA), bufferSizeRGBA);
+		file.close();
+		std::cout << "File written successfully." << std::endl;
+        } else {
+		std::cout << "Unable to open file for writing." << std::endl;
+        }
 
-        saveRGBAtoPNG(bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT, generateFileName(count));
+        //saveRGBAtoPNG(bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT, generateFileName(count));
 
         count++;
     }

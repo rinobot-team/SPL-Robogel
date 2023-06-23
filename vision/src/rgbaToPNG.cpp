@@ -23,6 +23,7 @@ char* generateFileName(int count) {
     std::string dateTimeStr = ss.str();
     dateTimeStr.append("::IMG-");
     dateTimeStr.append(std::to_string(count));
+    dateTimeStr.append(".png");
     char* dateTimeChar = new char[dateTimeStr.size() + 1];
     std::strcpy(dateTimeChar, dateTimeStr.c_str());
 

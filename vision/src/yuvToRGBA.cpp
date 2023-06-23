@@ -1,43 +1,58 @@
 #include "yuvToRGBA.hpp"
 
 void convertYuvToRGBA(uint8_t* bufferYuv, uint8_t* bufferRGBA, int width, int height){
-    for (int h = 0; h < height; h++) {
-        for (int w = 0; w < width; w += 2) {
-            int yIndex = h * width + w * 2;
-            int uIndex = yIndex + 1;
-            int vIndex = yIndex + 3;
-            int rgbaIndex = h * width * 4 + w * 4;
-            
-            int y0 = bufferYuv[yIndex];
-            int u = bufferYuv[uIndex];
-            int y1 = bufferYuv[yIndex + 2];
-            int v = bufferYuv[vIndex];
+    // YUYV to RGBA
+    /*
+    int size = width * height;
+    
+    for (int i = 0, j = 0; i < size * 2; i += 4, j += 6) {
+    int y0 = bufferYuv[i];
+    int u = bufferYuv[i + 1];
+    int y1 = bufferYuv[i + 2];
+    int v = bufferYuv[i + 3];
+    
+    int d = u - 128;
+    int f = v - 128;
+    
+    bufferRGBA[j] = clamp(y0 + 1.402 * f);
+    bufferRGBA[j + 1] = clamp(y0 - 0.344 * d - 0.714 * f);
+    bufferRGBA[j + 2] = clamp(y0 + 1.772 * d);
+    bufferRGBA[j + 3] = 255;
+    
+    bufferRGBA[j + 4] = clamp(y1 + 1.402 * f);
+    bufferRGBA[j + 5] = clamp(y1 - 0.344 * d - 0.714 * f);
+    bufferRGBA[j + 6] = clamp(y1 + 1.772 * d);
+    bufferRGBA[j + 7] = 255;
+    }
+    */
 
-            // Converting to RGBA
-            // I dont understand the math behind it. Hope it works!
-            int r0 = y0 + (1.370705 * (v - 128));
-            int g0 = y0 - (0.698001 * (v - 128)) - (0.337633 * (u - 128));
-            int b0 = y0 + (1.732446 * (u - 128));
-
-            int r1 = y1 + (1.370705 * (v - 128));
-            int g1 = y1 - (0.698001 * (v - 128)) - (0.337633 * (u - 128));
-            int b1 = y1 + (1.732446 * (u - 128));
-
-            // Assigning the RGBA values to the output buffer
-            bufferRGBA[rgbaIndex] = clamp(r0);
-            bufferRGBA[rgbaIndex + 1] = clamp(g0);
-            bufferRGBA[rgbaIndex + 2] = clamp(b0);
-            bufferRGBA[rgbaIndex + 3] = 255; // Max value to alpha channel (100% solid colour)
-
-            bufferRGBA[rgbaIndex + 4] = clamp(r1);
-            bufferRGBA[rgbaIndex + 5] = clamp(g1);
-            bufferRGBA[rgbaIndex + 6] = clamp(b1);
-            bufferRGBA[rgbaIndex + 7] = 255;
-        }
-    } 
+    // UYVY
+    
+    int size = width * height;
+    
+    for (int i = 0, j = 0; i < size * 2; i += 4, j += 6) {
+        int u = bufferYuv[i];
+        int y0 = bufferYuv[i + 1];
+        int v = bufferYuv[i + 2];
+        int y1 = bufferYuv[i + 3];
+    
+        int d = u - 128;
+        int f = v - 128;
+    
+        bufferRGBA[j] = clamp(y0 + 1.402 * f);
+        bufferRGBA[j + 1] = clamp(y0 - 0.344 * d - 0.714 * f);
+        bufferRGBA[j + 2] = clamp(y0 + 1.772 * d);
+        bufferRGBA[j + 3] = 255;
+    
+        bufferRGBA[j + 4] = clamp(y1 + 1.402 * f);
+        bufferRGBA[j + 5] = clamp(y1 - 0.344 * d - 0.714 * f);
+        bufferRGBA[j + 6] = clamp(y1 + 1.772 * d);
+        bufferRGBA[j + 7] = 255;
+    }
+    
 }
 
-int clamp(int value) {
+int clamp(float value) {
     if (value < 0){
         return 0;
     } else if (value > 255) {

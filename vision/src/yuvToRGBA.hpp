@@ -5,6 +5,6 @@
 
 void convertYuvToRGBA(uint8_t* bufferYuv, uint8_t* bufferRGBA, int width, int height);
 
-int clamp(int value);
+int clamp(float value);
 
 #endif
