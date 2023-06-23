@@ -32,8 +32,7 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 
-    NaoCamera *cam= new NaoCamera("/dev/video-bottom", IO_METHOD_MMAP, kVGA);
-    const uint8_t *camBuffer = cam->get(V4L2_PIX_FMT_YUYV);
+    NaoCamera *cam= new NaoCamera("/dev/video-top", IO_METHOD_MMAP, kVGA);
 
     const int bufferSizeYuv = IMAGE_WIDTH * IMAGE_HEIGHT * 2; // YUV allocates 2 bytes per pixel
     const int bufferSizeRGBA = IMAGE_WIDTH * IMAGE_HEIGHT * 4; // RGBA allocates 4 bytes per pixel
@@ -42,7 +41,25 @@ int main(int argc, char* argv[]){
     while(count < 30) {
         // Copying the data of the camera buffer to the yuv buffer
         uint8_t* bufferYuv = new uint8_t[bufferSizeYuv];
+        const uint8_t *camBuffer = cam->get(V4L2_PIX_FMT_YUYV);
         memcpy(bufferYuv, camBuffer, bufferSizeYuv);
+        // for(int i = 0; i < bufferSizeYuv/100; i++){
+            // cout << (int) bufferYuv[i] << ", "; 
+        // }
+        // cout << endl;
+        // continue;
+
+        /*
+        std::string yuv_image_filename("imagem" + std::to_string(count) + ".yuv");
+        std::ofstream yuv_file(yuv_image_filename, std::ios::binary);
+        if (yuv_file.is_open()) {
+		yuv_file.write(reinterpret_cast<const char*>(bufferYuv), bufferSizeYuv);
+		yuv_file.close();
+		std::cout << "yuv File written successfully." << std::endl;
+        } else {
+		std::cout << "Unable to open yuv file for writing." << std::endl;
+        }
+        */
         
         uint8_t* bufferRGBA = new uint8_t[bufferSizeRGBA];
         convertYuvToRGBA(bufferYuv, bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -60,10 +77,11 @@ int main(int argc, char* argv[]){
         //saveRGBAtoPNG(bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT, generateFileName(count));
 
         count++;
+        delete [] bufferYuv;
+        delete [] bufferRGBA;
     }
 
     delete cam;
 
     return 0;
 }
-
