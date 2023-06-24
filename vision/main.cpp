@@ -43,24 +43,6 @@ int main(int argc, char* argv[]){
         uint8_t* bufferYuv = new uint8_t[bufferSizeYuv];
         const uint8_t *camBuffer = cam->get(V4L2_PIX_FMT_YUYV);
         memcpy(bufferYuv, camBuffer, bufferSizeYuv);
-        // for(int i = 0; i < bufferSizeYuv/100; i++){
-            // cout << (int) bufferYuv[i] << ", "; 
-        // }
-        // cout << endl;
-        // continue;
-
-        /*
-        std::string yuv_image_filename("imagem" + std::to_string(count) + ".yuv");
-        std::ofstream yuv_file(yuv_image_filename, std::ios::binary);
-        if (yuv_file.is_open()) {
-		yuv_file.write(reinterpret_cast<const char*>(bufferYuv), bufferSizeYuv);
-		yuv_file.close();
-		std::cout << "yuv File written successfully." << std::endl;
-        } else {
-		std::cout << "Unable to open yuv file for writing." << std::endl;
-        }
-        */
-        
         uint8_t* bufferRGBA = new uint8_t[bufferSizeRGBA];
         convertYuvToRGBA(bufferYuv, bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT);
         
@@ -74,7 +56,7 @@ int main(int argc, char* argv[]){
 		std::cout << "Unable to open file for writing." << std::endl;
         }
 
-        //saveRGBAtoPNG(bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT, generateFileName(count));
+        saveRGBAtoPNG(bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT, generateFileName(count));
 
         count++;
         delete [] bufferYuv;

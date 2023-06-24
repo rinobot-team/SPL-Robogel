@@ -3,33 +3,8 @@
 
 using namespace std;
 void convertYuvToRGBA(uint8_t* bufferYuv, uint8_t* bufferRGBA, int width, int height){
-    // YUYV to RGBA
-    /*
-    int size = width * height;
-    
-    for (int i = 0, j = 0; i < size * 2; i += 4, j += 6) {
-    int y0 = bufferYuv[i];
-    int u = bufferYuv[i + 1];
-    int y1 = bufferYuv[i + 2];
-    int v = bufferYuv[i + 3];
-    
-    int d = u - 128;
-    int f = v - 128;
-    
-    bufferRGBA[j] = clamp(y0 + 1.402 * f);
-    bufferRGBA[j + 1] = clamp(y0 - 0.344 * d - 0.714 * f);
-    bufferRGBA[j + 2] = clamp(y0 + 1.772 * d);
-    bufferRGBA[j + 3] = 255;
-    
-    bufferRGBA[j + 4] = clamp(y1 + 1.402 * f);
-    bufferRGBA[j + 5] = clamp(y1 - 0.344 * d - 0.714 * f);
-    bufferRGBA[j + 6] = clamp(y1 + 1.772 * d);
-    bufferRGBA[j + 7] = 255;
-    }
-    */
 
     // UYVY
-    
     int size = width * height;
     
     cout << "hello!" << endl;
@@ -40,7 +15,7 @@ void convertYuvToRGBA(uint8_t* bufferYuv, uint8_t* bufferRGBA, int width, int he
         int y1 = bufferYuv[i + 3];
         if(i % 100 == 0){
             cout << "y0 = " << y0  << "("  << i << ")"<< endl;
-         cout << "v = " << v << endl;
+            cout << "v = " << v << endl;
         }
     
         int d = u - 128;
@@ -51,10 +26,7 @@ void convertYuvToRGBA(uint8_t* bufferYuv, uint8_t* bufferRGBA, int width, int he
         bufferRGBA[j + 2] = clamp(y0 + 1.772 * d);
         bufferRGBA[j + 3] = 255;
 
-        // cout << (y0 + 1.402 * f) << ", " << (y0 - 0.344 * d - 0.714 * f) << ", " << (y0 + 1.772 * d) << endl;
-    
         bufferRGBA[j + 4] = clamp(y1 + 1.402 * f);
-        // bufferRGBA[j + 4] = 255;
         bufferRGBA[j + 5] = clamp(y1 - 0.344 * d - 0.714 * f);
         bufferRGBA[j + 6] = clamp(y1 + 1.772 * d);
         bufferRGBA[j + 7] = 255;
