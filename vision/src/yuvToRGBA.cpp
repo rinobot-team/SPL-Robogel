@@ -37,7 +37,6 @@ void convertYuvToRGBA(uint8_t* bufferYuv, uint8_t* bufferRGBA, int width, int he
         bufferRGBA[j + 7] = 255;
 
     }
-    
 }
 
 int clamp(float value) {
@@ -47,5 +46,24 @@ int clamp(float value) {
         return 255;
     } else {
         return value;
+    }
+}
+
+void invertImage(uint8_t* bufferRGBA, int width, int height) {
+    const size_t bufferSize = width * height * 4;
+    const size_t pixelSize = 4; // Each pixel size in bytes
+    const size_t numPixels = bufferSize / pixelSize;
+
+    for(size_t i = 0; i < numPixels / 2; ++i) {
+        // Calculating the indexes to change
+        size_t indexA = i * pixelSize;
+        size_t indexB = (bufferSize - pixelSize) - (i * pixelSize);
+
+        // Changing the pixels
+        for (size_t j = 0; j < pixelSize; ++j) {
+            uint8_t temp = bufferRGBA[indexA + j];
+            bufferRGBA[indexA + j] = bufferRGBA[indexB + j];
+            bufferRGBA[indexB + j] = temp;
+        }
     }
 }

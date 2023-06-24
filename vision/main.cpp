@@ -45,7 +45,8 @@ int main(int argc, char* argv[]){
         memcpy(bufferYuv, camBuffer, bufferSizeYuv);
         uint8_t* bufferRGBA = new uint8_t[bufferSizeRGBA];
         convertYuvToRGBA(bufferYuv, bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT);
-        
+        invertImage(bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT);
+        /*
         std::string image_filename("imagem" + std::to_string(count) + ".rgba");
         std::ofstream file(image_filename, std::ios::binary);
         if (file.is_open()) {
@@ -55,7 +56,8 @@ int main(int argc, char* argv[]){
         } else {
 		std::cout << "Unable to open file for writing." << std::endl;
         }
-
+        */
+        
         saveRGBAtoPNG(bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT, generateFileName(count));
 
         count++;
