@@ -74,7 +74,7 @@ int main(int argc, char* argv[]){
 		std::cout << "Unable to open file for writing." << std::endl;
         }
 
-        //saveRGBAtoPNG(bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT, generateFileName(count));
+        saveRGBAtoPNG(bufferRGBA, IMAGE_WIDTH, IMAGE_HEIGHT, generateFileName(count));
 
         count++;
         delete [] bufferYuv;

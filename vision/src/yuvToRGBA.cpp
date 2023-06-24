@@ -34,10 +34,15 @@ void convertYuvToRGBA(uint8_t* bufferYuv, uint8_t* bufferRGBA, int width, int he
     
     cout << "hello!" << endl;
     for (int i = 0, j = 0; i < size * 2; i += 4, j += 8) {
-        int u = bufferYuv[i];
-        int y0 = bufferYuv[i + 1];
-        int v = bufferYuv[i + 2];
-        int y1 = bufferYuv[i + 3];
+        // int u = bufferYuv[i];
+        // int y0 = bufferYuv[i + 1];
+        // int v = bufferYuv[i + 2];
+        // int y1 = bufferYuv[i + 3];
+
+        int y0 = bufferYuv[i + 0];
+        int u = bufferYuv[i + 1];
+        int y1 = bufferYuv[i + 2];
+        int v = bufferYuv[i + 3];
         if(i % 100 == 0){
             cout << "y0 = " << y0  << "("  << i << ")"<< endl;
          cout << "v = " << v << endl;
