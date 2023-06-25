@@ -370,6 +370,10 @@ int main(int, char*[]) {
 			socket.send(boost::asio::buffer(buffer, size));
 			break;
 		}
+		
+		Behavior estadoDeJogo;
+		frame_handler.actuator_frame.leds.eyes.left.fill(estadoDeJogo.geteyecolor());
+
 	}
 	return 0;
 }

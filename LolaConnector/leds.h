@@ -9,6 +9,8 @@ struct RGB {
     static const RGB BLUE;
     static const RGB ORANGE;
     static const RGB YELLOW;
+    static const RGB OFF;
+    static const RGB PURPLE;
 };
 
 using Eye = std::array<RGB, 8>;
