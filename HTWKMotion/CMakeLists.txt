@@ -16,6 +16,8 @@ add_library(${PROJECT_NAME}
     walking_engine.cpp
     walking_engine.h
     walking_time.h
+    behavior.cpp
+    behavior.h
 )
 target_link_libraries(${PROJECT_NAME} utils Kinematics)
 target_include_directories(${PROJECT_NAME} PUBLIC . ../utils)
