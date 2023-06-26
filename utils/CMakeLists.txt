@@ -9,6 +9,7 @@ set(srcs
     point_3d.h
     position.h
     stl_ext.h
+    state.h
 )
 add_library(${PROJECT_NAME} ${srcs})
 # target_include_directories(utils INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/utils)

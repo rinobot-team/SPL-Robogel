@@ -11,6 +11,7 @@ class ArmController {
     bool isFront() { return state <= -1.f; }
     bool isBack() { return state >= 1.f; }
     ArmJoints proceed();
+    ArmJoints proceed2();
 
   private:
     float state = -1.f;

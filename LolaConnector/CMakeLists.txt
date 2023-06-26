@@ -9,6 +9,8 @@ find_package(Boost COMPONENTS system program_options filesystem REQUIRED)
 
 add_library(${PROJECT_NAME}
     battery.h
+    fila.h
+    fila.cpp
     # fsr.h
     # imu.h
     # joints.h
@@ -20,6 +22,7 @@ add_library(${PROJECT_NAME}
     lola_frame.h
     # point_3d.h
     # stl_ext.h
+
 )
 target_link_libraries(${PROJECT_NAME} Boost::system msgpack utils)
 target_include_directories(${PROJECT_NAME} PUBLIC .)
