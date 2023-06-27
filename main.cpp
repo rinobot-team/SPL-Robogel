@@ -5,7 +5,7 @@
 #include "HTWKMotion/walking_engine.h"
 #include "utils/imu.h"
 #include "LolaConnector/fila.h"
-#include "HTWKMotion/state.h"
+#include "LolaConnector/state.h"
 
 #include <cmath>
 #include <csignal>
@@ -22,66 +22,24 @@
 using namespace boost::asio;
 using namespace std;
 
-	//Lola's State
-	static bool lola_shutdown = false;
-	bool lola_sit_forever = false;
-
-void freshFilter(Fila dadoX, float filterX, float last_filterX, Fila dadoY, float filterY, float last_filterY, Fila dadoZ, float filterZ, float last_filterZ,
-Fila dadoP, float filterP, float last_filterPitch, Fila dadoR, float filterR, float last_filterRoll, IMU imu){
-	//Filtro Accel
-	last_filterX = filterX;
-	last_filterY = filterY;
-	last_filterZ = filterZ;
-	dadoX.freshFila(imu.accel.x);
-	dadoY.freshFila(imu.accel.y);
-	dadoZ.freshFila(imu.accel.z);
-	filterX = dadoX.filter();
-	filterY = dadoY.filter();
-	filterZ = dadoZ.filter();
-
-	//Filtro Gyr
-	last_filterPitch = filterP;
-	last_filterRoll = filterR;
-	dadoP.freshFila(imu.gyr.pitch);
-	dadoR.freshFila(imu.gyr.roll);
-	filterP = dadoP.filterRP();
-	filterR = dadoR.filterRP();
-}
-
-void bateryStatus(Battery battery, Leds* leds){
-	// Bateria atual
-	cout << "Bateria: " << battery.charge << '\n';
-	// Bateria 75%-100%
-    if(battery.charge >= 0.75){            
-        leds->eyes.right.fill(RGB::GREEN);
-    }
-	// Bateria 50%-75%
-    else if(battery.charge >= 0.5 && battery.charge < 0.75){            
-        leds->eyes.right.fill(RGB::YELLOW);
-    }
-	// Bateria 25%-50%
-    else if(battery.charge >= 0.25 && battery.charge < 0.5){
-        leds->eyes.right.fill(RGB::ORANGE);
-    }
-	// Bateria 1%-25%
-    else{
-        leds->eyes.right.fill(RGB::RED);
-    }
-}
+//Lola's State
+static bool lola_shutdown = false;
+bool lola_sit_forever = false;
 
 void ctrlc_handler(int) {
 	lola_shutdown = true;
 }
 
 int main(int, char*[]) {
+	//Declaração state
+	NAO nao;
+
 	// Declarações / Atribuições
-	auto sit_motion = SitMotion();
+	/*auto sit_motion = SitMotion();
 	auto ankle_balancer = AnkleBalancer();
 	auto arm_controller = ArmController();
 	auto walking_engine = WalkingEngine();
-	auto odo = Odometry();
-	float filterX = 0, filterY = 0, filterZ = 0, filterP = 0, filterR = 0;
-	float last_filterX = 0, last_filterY = 0, last_filterZ = 0, last_filterPitch = 0, last_filterRoll = 0;
+	auto odo = Odometry();*/
 
 	// Register some handlers so we can clean-up when we're killed.
 	signal(SIGINT, ctrlc_handler);
@@ -96,17 +54,13 @@ int main(int, char*[]) {
 	constexpr int max_len = 100000;
 	char data[max_len] = {'\0'};
 	boost::system::error_code ec;
-	LolaFrameHandler frame_handler;
 
 	int pra_frente = 0;
 	int pro_lado = 0;
 
 	while (true) {
-		//Declaração state
-		NAO nao;
-
 		// Declarações / Atribuições de sensores
-		const LolaSensorFrame& sensor_frame = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
+		/*const LolaSensorFrame& sensor_frame = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
 		auto& joints = frame_handler.actuator_frame.joints; //Juntas
 		auto& leds = frame_handler.actuator_frame.leds; // Leds
 		auto& battery = sensor_frame.battery; // Bateria
@@ -115,24 +69,20 @@ int main(int, char*[]) {
 
 		// Vetor dos FSR
 		float fsrR[4] = {fsr.right.fl, fsr.right.fr, fsr.right.rl, fsr.right.rr};
-		float fsrL[4] = {fsr.left.fl, fsr.left.fr, fsr.left.rl, fsr.left.rr};
+		float fsrL[4] = {fsr.left.fl, fsr.left.fr, fsr.left.rl, fsr.left.rr};*/
+
+		nao.declara();
 
 		// Atualizações do filtro
-		freshFilter(dadoX, filterX, last_filterX, dadoY, filterY, last_filterY, dadoZ, filterZ, last_filterZ,
-		dadoP, filterP, last_filterPitch, dadoR, filterR, last_filterRoll, imu); //Atualizar parâmetros conforme aumentar os filtros
+		/*freshFilter(dadoX, filterX, last_filterX, dadoY, filterY, last_filterY, dadoZ, filterZ, last_filterZ,
+		dadoP, filterP, last_filterPitch, dadoR, filterR, last_filterRoll, imu); //Atualizar parâmetros conforme aumentar os filtros*/
 
-		// Atualização bateria
-		bateryStatus(battery, &leds);
+		nao.freshFilter();
 
 		//TODO: Insert walking engine and stuff here. :)
-		if (/*client_connected &&*/ !lola_shutdown && !lola_sit_forever && (lola_state == Lola_state::begin || lola_state == Lola_state::standingBegin || lola_state == Lola_state::stand)){
+		if (/*client_connected &&*/ !lola_shutdown && !lola_sit_forever && (nao.getState() == Lola_state::begin || nao.getState() == Lola_state::standingBegin || nao.getState() == Lola_state::stand)){
 			if (!sit_motion.isStanding()) {
-				lola_state = Lola_state::standingBegin;
-				joints.head[HeadPitch] = {.angle = 0.3f, .stiffness = 1.f};
-				joints.legs = sit_motion.getUp(sensor_frame.joints.legs, ankle_balancer, &arm_controller);
-				joints.arms = arm_controller.proceed();
-				walking_engine.reset();
-				// TODO: You probably want to have a few else if statements here for things that should override the walking, e.g. getting up.
+				nao.standingBegin();
 			} 
 			else{
 				lola_last_state = lola_state;
@@ -144,9 +94,9 @@ int main(int, char*[]) {
 				joints.arms = arm_controller.proceed();
 				joints.legs = walking_engine.proceed(sensor_frame.fsr, 0.1, 0, ankle_balancer,sensor_frame.imu.gyr.yaw, &odo, &arm_controller);
 
-				isFalling(imu, fsrR, fsrL, filterX, last_filterX, filterY, last_filterY, filterZ, last_filterZ);
+				nao.isFalling();
 				
-				if(seguro(fsrR, fsrL)){
+				if(nao.seguro()){
 					cout << "No chao!" << endl;
 					/*if(pra_frente < 400 && pro_lado == 0){
 						walking_engine.setRequest(0.07, 0, 0, 0.1);
@@ -219,7 +169,7 @@ int main(int, char*[]) {
 				joints.legs = sit_motion.sitDown(sensor_frame.joints.legs, ankle_balancer, &arm_controller);
 			}
 			else{
-				// walking_engine.setRequest(0, 0, 0, 0, Shoot::NONE);
+				walking_engine.setRequest(0, 0, 0, 0, Shoot::NONE);
 				walking_engine.setRequest(0, 0, 0, 0);
 				joints.legs = walking_engine.proceed(sensor_frame.fsr, sensor_frame.imu.gyr.pitch, sensor_frame.imu.gyr.roll, ankle_balancer, sensor_frame.imu.gyr.yaw, &odo, &arm_controller);
 			}

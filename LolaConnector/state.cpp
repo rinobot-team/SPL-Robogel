@@ -5,7 +5,6 @@
 #include "HTWKMotion/walking_engine.h"
 #include "utils/imu.h"
 #include "LolaConnector/fila.h"
-#include "HTWKMotion/state.h"
 #include "state.h"
 
 #include <cmath>
@@ -25,6 +24,7 @@ using namespace std;
 
 NAO::NAO(){
     setState(Lola_state::begin);
+	
 }
 
 void NAO::setState(Lola_state newEstado){
@@ -43,7 +43,7 @@ Lola_state NAO::getLastState(){
     return last_state;
 }
 
-bool NAO::seguro(float fsrR[], float fsrL[]){
+bool NAO::seguro(){
     float footR = 0;
 	float footL = 0;
 	for(int c = 0; c < 4; c++){
@@ -59,7 +59,41 @@ bool NAO::seguro(float fsrR[], float fsrL[]){
 	}
 }
 
-bool NAO::fallen(IMU imu, float right[], float left[], float filterZ){
+void NAO::freshFilter(){
+	//Filtro Accel
+	last_filterX = filterX;
+	last_filterY = filterY;
+	last_filterZ = filterZ;
+	dadoX.freshFila(imu.accel.x);
+	dadoY.freshFila(imu.accel.y);
+	dadoZ.freshFila(imu.accel.z);
+	filterX = dadoX.filter();
+	filterY = dadoY.filter();
+	filterZ = dadoZ.filter();
+
+	//Filtro Gyr
+	last_filterPitch = filterP;
+	last_filterRoll = filterR;
+	dadoP.freshFila(imu.gyr.pitch);
+	dadoR.freshFila(imu.gyr.roll);
+	filterP = dadoP.filterRP();
+	filterR = dadoR.filterRP();
+}
+
+void NAO::declara(){
+	const LolaSensorFrame& sensor_frame = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
+	auto& joints = frame_handler.actuator_frame.joints; //Juntas
+	auto& leds = frame_handler.actuator_frame.leds; // Leds
+	auto& battery = sensor_frame.battery; // Bateria
+	auto& fsr = sensor_frame.fsr; // FSR: sensores dos pés
+	auto& imu = sensor_frame.imu; // IMU: Accel e GYR
+
+	// Vetor dos FSR
+	float fsrR[4] = {fsr.right.fl, fsr.right.fr, fsr.right.rl, fsr.right.rr};
+	float fsrL[4] = {fsr.left.fl, fsr.left.fr, fsr.left.rl, fsr.left.rr};
+}
+
+bool NAO::fallen(){
     //Contato pés
 	float foot = 0;
 	for(int c = 0; c < 4; c++){
@@ -77,7 +111,7 @@ bool NAO::fallen(IMU imu, float right[], float left[], float filterZ){
 	}
 }
 
-bool NAO::isStanding(IMU imu, float filterX, float last_filterX, float filterY, float last_filterY, float filterZ, float last_filterZ){
+bool NAO::isStanding(){
     if(getLastState() == Lola_state::fallingF || (getLastState() == Lola_state::fallingR || getLastState() == Lola_state::fallingL)){
 		if((filterZ < -1 && last_filterZ > filterZ) && (filterX < 8 && filterX > 1) ){
 			setLastState();
@@ -103,7 +137,7 @@ bool NAO::isStanding(IMU imu, float filterX, float last_filterX, float filterY, 
 	}
 }
 
-bool NAO::isFalling(IMU imu, float fsrR[], float fsrL[], float filterX, float last_filterX, float filterY, float last_filterY, float filterZ, float last_filterZ){
+bool NAO::isFalling(){
     //Last state
 	if(getLastState() == Lola_state::stand || getLastState() == Lola_state::fallingF || getLastState() == Lola_state::fallingB || getLastState() == Lola_state::fallingL || 
 	getLastState() == Lola_state::fallingR || getLastState() == Lola_state::standingF || getLastState() == Lola_state::standingB || getLastState() == Lola_state::fallen){
@@ -153,4 +187,17 @@ bool NAO::isFalling(IMU imu, float fsrR[], float fsrL[], float filterX, float la
 	else{
 		return false;
 	}
+}
+
+void NAO::standingBegin(){
+	setState(Lola_state::standingBegin);
+	joints.head[HeadPitch] = {.angle = 0.3f, .stiffness = 1.f};
+	joints.legs = sit_motion.getUp(sensor_frame.joints.legs, ankle_balancer, &arm_controller);
+	joints.arms = arm_controller.proceed();
+	walking_engine.reset();
+	// TODO: You probably want to have a few else if statements here for things that should override the walking, e.g. getting up.
+}
+
+void NAO::stand(){
+	
 }
