@@ -200,8 +200,8 @@ void freshFilter(Fila dadoX, Fila dadoY, Fila dadoZ, Fila dadoP, Fila dadoR, IMU
 	last_filterRoll = filterR;
 	dadoP.freshFila(imu.gyr.pitch);
 	dadoR.freshFila(imu.gyr.roll);
-	filterP = dadoP.filterRP();
-	filterR = dadoR.filterRP();
+	//filterP = dadoP.filterRP();
+	//filterR = dadoR.filterRP();
 }
 
 void bateryStatus(Battery battery, Leds* leds){
