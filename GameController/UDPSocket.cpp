@@ -61,3 +61,28 @@ UDPSocket::UDPSocket(int port, char *address, bool Datagram = true, bool broadca
 UDPSocket::~UDPSocket() {
     close(sock);
 }
+
+int UDPSocket::getRetVal() {
+    return retval;
+}
+
+bool UDPSocket::isConnected() {
+    return connected;
+}
+
+bool UDPSocket::wait() {
+    if (client = -1) return true;
+    unsigned int clientLen = sizeof(outaddr);
+    client = accept(sock, (struct sockaddr *)&outaddr, &clientLen);
+    return client >= 0;
+}
+
+void UDPSocket::disconnect() {
+    if (client != -1) close(client);
+    client = -1;
+}
+
+void UDPSocket::getAddress(const char* name, char* addr) {
+    struct hostent *hp;
+    // TODO: gethostbyname() depracated
+}
