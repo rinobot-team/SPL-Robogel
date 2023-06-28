@@ -5,7 +5,6 @@
 #include "HTWKMotion/walking_engine.h"
 #include "utils/imu.h"
 #include "LolaConnector/fila.h"
-#include "HTWKMotion/state.h"
 
 #include <cmath>
 #include <csignal>
@@ -25,9 +24,166 @@ using namespace std;
 	//Lola's State
 	static bool lola_shutdown = false;
 	bool lola_sit_forever = false;
+	enum class Lola_state{
+		//Estado incial
+		begin,
 
-void freshFilter(Fila dadoX, float filterX, float last_filterX, Fila dadoY, float filterY, float last_filterY, Fila dadoZ, float filterZ, float last_filterZ,
-Fila dadoP, float filterP, float last_filterPitch, Fila dadoR, float filterR, float last_filterRoll, IMU imu){
+		//Levantado
+		stand,
+
+		//Levantado inicial / Front / Back
+		standingBegin,
+		standingF,
+		standingB,
+
+		//Caindo Front / Back / Right / Left
+		fallingF,
+		fallingB,
+		fallingR,
+		fallingL,
+
+		//Caido
+		fallen,
+
+		//Sentado
+		sit
+	};
+
+	Lola_state lola_state = Lola_state::begin;
+	Lola_state lola_last_state;
+
+	float filterX = 0, filterY = 0, filterZ = 0, filterP = 0, filterR = 0;
+	float last_filterX = 0, last_filterY = 0, last_filterZ = 0, last_filterPitch = 0, last_filterRoll = 0; 
+
+bool seguro(float fsrR[], float fsrL[]){
+	float footR = 0;
+	float footL = 0;
+	for(int c = 0; c < 4; c++){
+		footR += fsrR[c];
+		footL += fsrL[c];
+	}
+
+	if(footR < 1 && footL < 1){
+		return false;
+	}
+	else{
+		return true;
+	}
+}
+
+bool fallen(IMU imu, float right[], float left[]){
+	//Accel
+	//float Az = imu.accel.z;
+
+	//Contato pés
+	float foot = 0;
+	for(int c = 0; c < 4; c++){
+		foot += (right[c] + left[c]);
+	}
+
+	//Condição
+	if(filterZ > -1 && foot < 1 ){
+		lola_last_state = lola_state;
+		lola_state = Lola_state::fallen;
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool isStanding(IMU imu){
+	//float Ax = imu.accel.x;
+	//float Ay = imu.accel.y;
+	//float Az = imu.accel.z;
+
+	//Gyr
+	//float pitch = imu.gyr.pitch; // Front / Back
+	//float roll = imu.gyr.roll; // Right / Left
+
+	if(lola_last_state == Lola_state::fallingF || (lola_last_state == Lola_state::fallingR || lola_last_state == Lola_state::fallingL)){
+		if((filterZ < -1 && last_filterZ > filterZ) && (filterX < 8 && filterX > 1) ){
+			lola_last_state = lola_state;
+			lola_state = Lola_state::standingF;
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	else if(lola_last_state == Lola_state::fallingB || (lola_last_state == Lola_state::fallingR || lola_last_state == Lola_state::fallingL)){
+		if((filterZ < -1 && last_filterZ > filterZ) && (filterX > -8.5 && filterX < -1.5)){
+			lola_last_state = lola_state;
+			lola_state = Lola_state::standingB;
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	else{
+		return false;
+	}
+}
+
+bool isFalling(IMU imu, float fsrR[], float fsrL[]){
+	//Acell
+	//float Ax = imu.accel.x;
+	//float Ay = imu.accel.y;
+	//float Az = imu.accel.z;
+
+	//Last state
+	if(lola_last_state == Lola_state::stand || lola_last_state == Lola_state::fallingF || lola_last_state == Lola_state::fallingB || lola_last_state == Lola_state::fallingL || 
+	lola_last_state == Lola_state::fallingR || lola_last_state == Lola_state::standingF || lola_last_state == Lola_state::standingB || lola_last_state == Lola_state::fallen){
+
+		//Pés no chão
+		if(!seguro(fsrR, fsrL)){
+			//Angulação Az
+			if((filterZ > -9 && filterZ < -2) && last_filterZ < filterZ){
+				//Front
+				if(filterX > 4 && (filterY > -3 && filterY < 3)){
+					cout << "F" << endl;
+					lola_last_state = lola_state;
+					lola_state = Lola_state::fallingF;
+					return true;
+				}
+				//Back
+				else if(filterX < -4 && (filterY > -3 && filterY < 3)){
+					cout << "B" << endl;
+					lola_last_state = lola_state;
+					lola_state = Lola_state::fallingB;
+					return true;
+				}
+				//Right
+				else if(filterY > 5 && (filterX > -3 && filterX < 3)){
+					cout << "R" << endl;
+					lola_last_state = lola_state;
+					lola_state = Lola_state::fallingR;
+					return true;
+				}
+				//Left
+				else if(filterY < -5 && (filterX > -3 && filterX < 3)){
+					cout << "L" << endl;
+					lola_last_state = lola_state;
+					lola_state = Lola_state::fallingL;
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+			return false;
+		}
+		else{
+			return false;
+		}
+	}
+	else{
+		return false;
+	}
+}
+
+void freshFilter(Fila dadoX, Fila dadoY, Fila dadoZ, Fila dadoP, Fila dadoR, IMU imu){
 	//Filtro Accel
 	last_filterX = filterX;
 	last_filterY = filterY;
@@ -80,8 +236,6 @@ int main(int, char*[]) {
 	auto arm_controller = ArmController();
 	auto walking_engine = WalkingEngine();
 	auto odo = Odometry();
-	float filterX = 0, filterY = 0, filterZ = 0, filterP = 0, filterR = 0;
-	float last_filterX = 0, last_filterY = 0, last_filterZ = 0, last_filterPitch = 0, last_filterRoll = 0;
 
 	// Register some handlers so we can clean-up when we're killed.
 	signal(SIGINT, ctrlc_handler);
@@ -102,9 +256,6 @@ int main(int, char*[]) {
 	int pro_lado = 0;
 
 	while (true) {
-		//Declaração state
-		NAO nao;
-
 		// Declarações / Atribuições de sensores
 		const LolaSensorFrame& sensor_frame = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
 		auto& joints = frame_handler.actuator_frame.joints; //Juntas
@@ -118,12 +269,18 @@ int main(int, char*[]) {
 		float fsrL[4] = {fsr.left.fl, fsr.left.fr, fsr.left.rl, fsr.left.rr};
 
 		// Atualizações do filtro
-		freshFilter(dadoX, filterX, last_filterX, dadoY, filterY, last_filterY, dadoZ, filterZ, last_filterZ,
-		dadoP, filterP, last_filterPitch, dadoR, filterR, last_filterRoll, imu); //Atualizar parâmetros conforme aumentar os filtros
+		freshFilter(dadoX, dadoY, dadoZ, dadoP, dadoR, imu); //Atualizar parâmetros conforme aumentar os filtros
 
 		// Atualização bateria
 		bateryStatus(battery, &leds);
 
+		/*cout << "Filtro X: " << filterX << endl;
+		cout << "X" << imu.accel.x << endl;
+		cout << "Filtro Y: " << filterY << endl;
+		cout << "Y" << imu.accel.y << endl;
+		cout << "Filtro Z: " << filterZ << endl;
+		cout << "Z" << imu.accel.z << endl;*/		
+		
 		//TODO: Insert walking engine and stuff here. :)
 		if (/*client_connected &&*/ !lola_shutdown && !lola_sit_forever && (lola_state == Lola_state::begin || lola_state == Lola_state::standingBegin || lola_state == Lola_state::stand)){
 			if (!sit_motion.isStanding()) {
@@ -144,7 +301,7 @@ int main(int, char*[]) {
 				joints.arms = arm_controller.proceed();
 				joints.legs = walking_engine.proceed(sensor_frame.fsr, 0.1, 0, ankle_balancer,sensor_frame.imu.gyr.yaw, &odo, &arm_controller);
 
-				isFalling(imu, fsrR, fsrL, filterX, last_filterX, filterY, last_filterY, filterZ, last_filterZ);
+				isFalling(imu, fsrR, fsrL);
 				
 				if(seguro(fsrR, fsrL)){
 					cout << "No chao!" << endl;
@@ -164,6 +321,8 @@ int main(int, char*[]) {
 				else{
 					cout << "Fora do chao!" << endl;
 					walking_engine.reset();
+					
+					
 				}
 			}
 		}
@@ -172,26 +331,26 @@ int main(int, char*[]) {
 			if(lola_state == Lola_state::fallingF){
 				cout << "Falling Front" << endl;
 				//isfalling()
-				fallen(imu, fsrR, fsrL, filterZ);
+				fallen(imu, fsrR, fsrL);
 			}
 			else if(lola_state == Lola_state::fallingB){
 				cout << "Falling Back" << endl;
-				fallen(imu, fsrR, fsrL, filterZ);
+				fallen(imu, fsrR, fsrL);
 			}
 			else if(lola_state == Lola_state::fallingR){
 				cout << "Falling Right" << endl;
-				fallen(imu, fsrR, fsrL, filterZ);
+				fallen(imu, fsrR, fsrL);
 			}
 			else{
 				cout << "Falling Left" << endl;
-				fallen(imu, fsrR, fsrL, filterZ);
+				fallen(imu, fsrR, fsrL);
 			}
 		}
 		//FALLEN
 		else if(lola_state == Lola_state::fallen){
 			cout << "FALLEN!!!" << endl;
 			//fallen();
-			isStanding(imu, filterX, last_filterX, filterY, last_filterY, filterZ, last_filterZ);
+			isStanding(imu);
 		}
 		//STANDING FRONT
 		else if(lola_state == Lola_state::standingF){
@@ -201,7 +360,7 @@ int main(int, char*[]) {
 				lola_last_state = lola_state;
 				lola_state = Lola_state::stand;
 			}
-			else if(isFalling(imu, fsrR, fsrL, filterX, last_filterX, filterY, last_filterY, filterZ, last_filterZ)){}
+			else if(isFalling(imu, fsrR, fsrL)){}
 		}
 		//STANDING BACK	
 		else if(lola_state == Lola_state::standingB){
@@ -211,7 +370,7 @@ int main(int, char*[]) {
 				lola_last_state = lola_state;
 				lola_state = Lola_state::stand;
 			}
-			else if(isFalling(imu, fsrR, fsrL, filterX, last_filterX, filterY, last_filterY, filterZ, last_filterZ)){}
+			else if(isFalling(imu, fsrR, fsrL)){}
 		}
 		
 		else{
@@ -242,10 +401,6 @@ int main(int, char*[]) {
 			socket.send(boost::asio::buffer(buffer, size));
 			break;
 		}
-		
-		Behavior estadoDeJogo;
-		frame_handler.actuator_frame.leds.eyes.left.fill(estadoDeJogo.geteyecolor());
-
 	}
 	return 0;
 }

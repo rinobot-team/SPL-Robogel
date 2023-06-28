@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 #pragma once
 
 #include <array>
@@ -31,4 +29,3 @@ struct Leds {
     Ears ears;
     Eyes eyes;
 };
->>>>>>> motion-Marcelo
