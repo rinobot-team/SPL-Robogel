@@ -5,6 +5,8 @@ add_subdirectory(SPLDefault)
 set(srcs
     GameController.hpp
     GameController.cpp
+    UDPSocket.hpp
+    UDPSocket.cpp
 )
 add_library(${PROJECT_NAME} ${srcs})
 # target_include_directories(utils INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/utils)
