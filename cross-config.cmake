@@ -1,7 +1,7 @@
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR i686)
 
-set(CTC_DIR_PATH "softwares/ctc-linux64-atom-2.8.5.10")
+set(CTC_DIR_PATH "../softwares/ctc-linux64-atom-2.8.5.10")
 # softwares/ctc-linux64-atom-2.8.5.10.zip
 
 set(CMAKE_SYSROOT "${CMAKE_CURRENT_LIST_DIR}/${CTC_DIR_PATH}/yocto-sdk/sysroots/core2-32-sbr-linux")

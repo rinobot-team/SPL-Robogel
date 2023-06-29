@@ -22,9 +22,8 @@ add_library(${PROJECT_NAME}
     lola_frame.h
     # point_3d.h
     # stl_ext.h
-    state.cpp
-    state.h
-
+    nao.cpp
+    nao.h
 )
 target_link_libraries(${PROJECT_NAME} Boost::system msgpack utils)
 target_include_directories(${PROJECT_NAME} PUBLIC .)

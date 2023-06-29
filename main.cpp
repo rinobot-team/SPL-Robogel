@@ -193,7 +193,7 @@ int main(int, char*[]) {
 
 	socket.connect("/tmp/robocup");
 
-	//Fila dadoX, dadoY, dadoZ, dadoP, dadoR;
+	
 	constexpr int max_len = 100000;
 	char data[max_len] = {'\0'};
 	boost::system::error_code ec;
@@ -204,6 +204,7 @@ int main(int, char*[]) {
 
 	while (true) {
 		// Declarações / Atribuições de sensores
+		nao.fresh();
 		/*const LolaSensorFrame& sensor_frame = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
 		auto& joints = frame_handler.actuator_frame.joints; //Juntas
 		auto& leds = frame_handler.actuator_frame.leds; // Leds
@@ -216,7 +217,7 @@ int main(int, char*[]) {
 		float fsrL[4] = {fsr.left.fl, fsr.left.fr, fsr.left.rl, fsr.left.rr};*/
 
 		// Atualizações do filtro
-		freshFilter(dadoX, dadoY, dadoZ, dadoP, dadoR, imu); //Atualizar parâmetros conforme aumentar os filtros
+		//freshFilter(dadoX, dadoY, dadoZ, dadoP, dadoR, imu); //Atualizar parâmetros conforme aumentar os filtros
 		
 		//TODO: Insert walking engine and stuff here. :)
 		if (/*client_connected &&*/nao.getState() == Lola_state::begin || nao.getState() == Lola_state::standingBegin || nao.getState() == Lola_state::stand){
@@ -224,7 +225,8 @@ int main(int, char*[]) {
 				cout << "Stading begin!!";
 			} 
 			else{
-				lola_last_state = lola_state;
+				nao.stand();
+				/*lola_last_state = lola_state;
 				lola_state = Lola_state::stand;
 				cout << "Stand!" << endl;
 
@@ -233,7 +235,7 @@ int main(int, char*[]) {
 				joints.arms = arm_controller.proceed();
 				joints.legs = walking_engine.proceed(sensor_frame.fsr, 0.1, 0, ankle_balancer,sensor_frame.imu.gyr.yaw, &odo, &arm_controller);
 
-				isFalling(imu, fsrR, fsrL);
+				isFalling();
 				
 				if(seguro(fsrR, fsrL)){
 					cout << "No chao!" << endl;
@@ -248,17 +250,17 @@ int main(int, char*[]) {
 					else{
 						joints.head[HeadPitch] = {.angle = 0.1f, .stiffness = 1.f};
 						lola_sit_forever = true;
-					}*/
+					}
 				}
 				else{
 					cout << "Fora do chao!" << endl;
 					walking_engine.reset();
 					
 					
-				}
+				}*/
 			}
 		}
-		//FALLING
+		//FALLING - feito
 		else if(lola_state == Lola_state::fallingF || lola_state == Lola_state::fallingB || lola_state == Lola_state::fallingR || lola_state == Lola_state::fallingL){
 			if(lola_state == Lola_state::fallingF){
 				cout << "Falling Front" << endl;
@@ -281,8 +283,8 @@ int main(int, char*[]) {
 		//FALLEN
 		else if(lola_state == Lola_state::fallen){
 			cout << "FALLEN!!!" << endl;
-			//fallen();
-			isStanding(imu);
+			nao.isStanding();
+			//levanta()
 		}
 		//STANDING FRONT
 		else if(lola_state == Lola_state::standingF){
@@ -305,7 +307,7 @@ int main(int, char*[]) {
 			else if(isFalling(imu, fsrR, fsrL)){}
 		}
 		
-		else{
+		else{ // Finish
 			if (walking_engine.isStanding()) {
 				joints.legs = sit_motion.sitDown(sensor_frame.joints.legs, ankle_balancer, &arm_controller);
 			}
@@ -323,15 +325,17 @@ int main(int, char*[]) {
 		size_t size;
 		tie(buffer, size) = frame_handler.pack();
 		socket.send(boost::asio::buffer(buffer, size));
-		if (lola_shutdown){
+		if (getState() == Lola_state::shutdown){
+			nao.shutdown();
+			
 			// When finishing, set all stiffnesses to -1. Also it's necessary to get another packet otherwise we can't send.
-			socket.receive(boost::asio::buffer(data, max_len));
+			/*socket.receive(boost::asio::buffer(data, max_len));
 			set_stiffness(-1.f, &frame_handler.actuator_frame.joints.legs);
 			set_stiffness(-1.f, &frame_handler.actuator_frame.joints.arms);
 			set_stiffness(-1.f, &frame_handler.actuator_frame.joints.head);
 			tie(buffer, size) = frame_handler.pack();
 			socket.send(boost::asio::buffer(buffer, size));
-			break;
+			break;*/
 		}
 	}
 	return 0;

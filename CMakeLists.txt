@@ -12,6 +12,8 @@ add_compile_options(-O3 -Wall -march=core2 -mtune=core2 -mfpmath=sse -msse4 -ggd
 find_package(Boost COMPONENTS system program_options filesystem REQUIRED)
 
 add_executable(${PROJECT_NAME}
+nao.cpp
+nao.h
 main.cpp)
 
 add_dependencies(${PROJECT_NAME} WalkingEngine)
