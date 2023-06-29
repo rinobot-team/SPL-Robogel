@@ -57,7 +57,7 @@ bool NAO::seguro(){
 
 void NAO::fresh(){
     // Sensor
-    const LolaSensorFrame& sensor_frameAUX = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
+    LolaSensorFrame& sensor_frameAUX = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
     sensor_frame = sensor_frameAUX;
     // Fila
     last_filterX = filterX;

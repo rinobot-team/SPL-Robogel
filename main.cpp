@@ -5,7 +5,7 @@
 #include "HTWKMotion/walking_engine.h"
 #include "utils/imu.h"
 #include "LolaConnector/fila.h"
-#include "LolaConnector/nao.h"
+#include "nao.h"
 
 #include <cmath>
 #include <csignal>

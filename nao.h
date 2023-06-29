@@ -56,11 +56,11 @@ private:
     void setLastState();
 
     // Declarações / Atribuições
-	auto sit_motion = SitMotion();
-	auto ankle_balancer = AnkleBalancer();
-	auto arm_controller = ArmController();
-	auto walking_engine = WalkingEngine();
-	auto odo = Odometry();
+	SitMotion sit_motion = SitMotion();
+	AnkleBalancer ankle_balancer = AnkleBalancer();
+	ArmController arm_controller = ArmController();
+	WalkingEngine walking_engine = WalkingEngine();
+	Odometry odo = Odometry();
 	signal(SIGINT, ctrlc_handler);
 	signal(SIGTERM, ctrlc_handler);
 	io_service io_service;
@@ -72,12 +72,12 @@ private:
     Fila dadoX, dadoY, dadoZ, dadoP, dadoR;
     LolaFrameHandler frame_handler;
     // Sensores -- fresh
-    const LolaSensorFrame& sensor_frame = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
-	auto& joints = frame_handler.actuator_frame.joints; //Juntas
-	auto& leds = frame_handler.actuator_frame.leds; // Leds
-	auto& battery = sensor_frame.battery; // Bateria
-	auto& fsr = sensor_frame.fsr; // FSR: sensores dos pés
-	auto& imu = sensor_frame.imu; // IMU: Accel e GYR
+    LolaSensorFrame& sensor_frame = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
+	Joints& joints = frame_handler.actuator_frame.joints; //Juntas
+	Leds& leds = frame_handler.actuator_frame.leds; // Leds
+	Battery& battery = sensor_frame.battery; // Bateria
+	FSR& fsr = sensor_frame.fsr; // FSR: sensores dos pés
+	IMU& imu = sensor_frame.imu; // IMU: Accel e GYR
     float fsrR[4] = {fsr.right.fl, fsr.right.fr, fsr.right.rl, fsr.right.rr};
 	float fsrL[4] = {fsr.left.fl, fsr.left.fr, fsr.left.rl, fsr.left.rr};
 	float filterX = 0, filterY = 0, filterZ = 0, filterP = 0, filterR = 0;
@@ -98,8 +98,6 @@ public:
 	void standing();	// Ações
 	void finish();	//Ação de finalização
 	void shutdown(); // Para o código;	
-
-
 
 	bool seguro();
 	void fresh();
