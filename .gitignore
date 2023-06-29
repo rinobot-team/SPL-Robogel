@@ -31,7 +31,6 @@
 *.out
 *.app
 
-<<<<<<< HEAD
 # Depracated / Dead Code
 *.old
 *.backup
@@ -42,7 +41,5 @@
 
 # Debuggig
 .vscode
-=======
 build/
 LolaConnector/msgpack
->>>>>>> motion-Marcelo
