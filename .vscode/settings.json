@@ -1,7 +1,7 @@
 {
     "files.associations": {
-        "array": "cpp",
-        "ostream": "cpp",
-        "system_error": "cpp"
+        "iostream": "cpp",
+        "csignal": "cpp",
+        "*.ipp": "cpp"
     }
 }

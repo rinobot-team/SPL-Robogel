@@ -18,11 +18,6 @@
 
 #include <lola_frame.h>
 
-NAO::NAO(){
-    setState(Lola_state::begin);
-    setLastState();
-}
-
 Lola_state NAO::getState(){
     return state;
 }
@@ -39,7 +34,7 @@ void NAO::setLastState(){
     last_state = state;
 }
 
-bool NAO::seguro(){
+bool NAO::seguro(float fsrR[], float fsrL[]){
 	float footR = 0;
 	float footL = 0;
 	for(int c = 0; c < 4; c++){
@@ -55,10 +50,7 @@ bool NAO::seguro(){
 	}
 }
 
-void NAO::fresh(){
-    // Sensor
-    LolaSensorFrame& sensor_frameAUX = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
-    sensor_frame = sensor_frameAUX;
+void NAO::fresh(IMU imu){
     // Fila
     last_filterX = filterX;
 	last_filterY = filterY;
@@ -71,59 +63,51 @@ void NAO::fresh(){
 	filterZ = dadoZ.filter();
 }
 
-bool isFalling(){
-	//Last state (teste)
-	//if(lola_last_state == Lola_state::stand || lola_last_state == Lola_state::fallingF || lola_last_state == Lola_state::fallingB || lola_last_state == Lola_state::fallingL || 
-	//lola_last_state == Lola_state::fallingR || lola_last_state == Lola_state::standingF || lola_last_state == Lola_state::standingB || lola_last_state == Lola_state::fallen){
-
-		//Pés no chão
-		if(!seguro()){
-			//Angulação Az
-			if((filterZ > -9 && filterZ < -2) && last_filterZ < filterZ){
-				//Front
-				if(filterX > 4 && (filterY > -3 && filterY < 3)){
-					cout << "F" << endl;
-					setLastState();
-                    setState(Lola_state::fallingF);
-					return true;
-				}
-				//Back
-				else if(filterX < -4 && (filterY > -3 && filterY < 3)){
-					cout << "B" << endl;
-					setLastState();
-                    setState(Lola_state::fallingB);
-					return true;
-				}
-				//Right
-				else if(filterY > 5 && (filterX > -3 && filterX < 3)){
-					cout << "R" << endl;
-					setLastState();
-                    setState(Lola_state::fallingR);
-					return true;
-				}
-				//Left
-				else if(filterY < -5 && (filterX > -3 && filterX < 3)){
-					cout << "L" << endl;
-					setLastState();
-                    setState(Lola_state::fallingL);
-					return true;
-				}
-				else{
-					return false;
-				}
+bool NAO::isFalling(float fsrR[], float fsrL[]){
+//Pés no chão
+if(!seguro(fsrR, fsrL)){
+	//Angulação Az
+		if((filterZ > -9 && filterZ < -2) && last_filterZ < filterZ){
+			//Front
+			if(filterX > 4 && (filterY > -3 && filterY < 3)){
+				cout << "F" << endl;
+				setLastState();
+                setState(Lola_state::fallingF);
+				return true;
 			}
-			return false;
+			//Back
+			else if(filterX < -4 && (filterY > -3 && filterY < 3)){
+				cout << "B" << endl;
+				setLastState();
+                setState(Lola_state::fallingB);
+				return true;
+			}
+			//Right
+			else if(filterY > 5 && (filterX > -3 && filterX < 3)){
+				cout << "R" << endl;
+				setLastState();
+                setState(Lola_state::fallingR);
+				return true;
+			}
+			//Left
+			else if(filterY < -5 && (filterX > -3 && filterX < 3)){
+				cout << "L" << endl;
+				setLastState();
+                setState(Lola_state::fallingL);
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	else{
 		return false;
 	}
-//}
+}
 
-bool isFallen(){
+bool NAO::isFallen(float right[], float left[]){
     //Accel
 	//float Az = imu.accel.z;
 
@@ -178,7 +162,7 @@ bool NAO::isStanding(){
 	}
 }
 
-bool NAO::isStand(){
+bool NAO::isStand(float fsrR[], float fsrL[]){
 	if(filterZ == -10 && seguro(fsrR, fsrL)){
 		setLastState();
 		setState(Lola_state::stand);
@@ -186,9 +170,9 @@ bool NAO::isStand(){
 }
 
 
-bool NAO::standingBegin(){
+bool NAO::standingBegin(LolaSensorFrame sensor_frame){
     if (!sit_motion.isStanding()) {
-		lola_state = Lola_state::standingBegin;
+		setState(Lola_state::standingBegin);
 		joints.head[HeadPitch] = {.angle = 0.3f, .stiffness = 1.f};
 		joints.legs = sit_motion.getUp(sensor_frame.joints.legs, ankle_balancer, &arm_controller);
 		joints.arms = arm_controller.proceed();
@@ -202,7 +186,7 @@ bool NAO::standingBegin(){
         return false;
     } 
 }
-void NAO::stand(){
+void NAO::stand(LolaSensorFrame sensor_frame, float fsrR[], float fsrL[]){
     setLastState();
     setState(Lola_state::stand);
 	cout << "Stand!" << endl;
@@ -212,12 +196,12 @@ void NAO::stand(){
 	joints.arms = arm_controller.proceed();
 	joints.legs = walking_engine.proceed(sensor_frame.fsr, 0.1, 0, ankle_balancer,sensor_frame.imu.gyr.yaw, &odo, &arm_controller);
 
-	isFalling(imu, fsrR, fsrL);
+	isFalling();
 				
 	if(seguro(fsrR, fsrL)){
 		cout << "No chao!" << endl;
         // ESTRATÉGIA
-		/*if(pra_frente < 400 && pro_lado == 0){
+		if(pra_frente < 400 && pro_lado == 0){
 			walking_engine.setRequest(0.07, 0, 0, 0.1);
 			pra_frente++;
 		}
@@ -227,8 +211,8 @@ void NAO::stand(){
 		}
 		else{
 			joints.head[HeadPitch] = {.angle = 0.1f, .stiffness = 1.f};
-			lola_sit_forever = true;
-		}*/
+			setState(Lola_state::finish);
+		}
 	}
 	else{
 		cout << "Fora do chao!" << endl;
@@ -236,27 +220,27 @@ void NAO::stand(){
 	}
 }
 
-void NAO::falling(){
+void NAO::falling(float right[], float left[]){
     switch(getState()){
         case Lola_state::fallingF:
             cout << "Falling Front" << endl;
 		    //isfalling()
-		    fallen(imu, fsrR, fsrL);
+		    isFallen(right, left);
             break;
         case Lola_state::fallingB:
             cout << "Falling Back" << endl;
 			//isfalling()
-			fallen(imu, fsrR, fsrL);
+			isFallen(right, left);
             break;
         case Lola_state::fallingR:
             cout << "Falling Right" << endl;
 			//isfalling()
-			fallen(imu, fsrR, fsrL);
+			isFallen(right, left);
             break;
         case Lola_state::fallingL:
             cout << "Falling Left" << endl;
 			//isfalling()
-			fallen(imu, fsrR, fsrL);
+			isFallen(right, left);
             break;
     }
 }
@@ -267,24 +251,24 @@ void NAO::fallen(){
 	isStanding();
 }
 
-void NAO::standing(){
+void NAO::standing(float fsrR[], float fsrL[]){
     switch(getState()){
         case Lola_state::standingF:
             cout << "Standing Front" << endl;
 			//standingFront()
 			isStanding();
-			isFalling();
+			isFalling(fsrR, fsrL);
             break;
         case Lola_state::standingB:
             cout << "Standing Back" << endl;
 			//standingBack()
 			isStanding();
-			isFalling();
+			isFalling(fsrR, fsrL);
             break;
     }
 }
 
-void NAO::finish(){
+void NAO::sit(LolaSensorFrame sensor_frame){
     if (walking_engine.isStanding()) {
 		joints.legs = sit_motion.sitDown(sensor_frame.joints.legs, ankle_balancer, &arm_controller);
 	}
@@ -296,16 +280,3 @@ void NAO::finish(){
 	//walking_engine.reset();
 	joints.arms = arm_controller.proceed();
 }
-
-void NAO::shutdown(){
-    // When finishing, set all stiffnesses to -1. Also it's necessary to get another packet otherwise we can't send.
-	socket.receive(boost::asio::buffer(data, max_len));
-	set_stiffness(-1.f, &frame_handler.actuator_frame.joints.legs);
-	set_stiffness(-1.f, &frame_handler.actuator_frame.joints.arms);
-	set_stiffness(-1.f, &frame_handler.actuator_frame.joints.head);
-	tie(buffer, size) = frame_handler.pack();
-	socket.send(boost::asio::buffer(buffer, size));
-	break;
-}
-
- 

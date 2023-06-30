@@ -45,7 +45,8 @@ enum Lola_state{
 	sit,
     sit_forever,
 
-    shutdown
+    shutdown,
+	finish
 };
 
 class NAO{
@@ -61,25 +62,13 @@ private:
 	ArmController arm_controller = ArmController();
 	WalkingEngine walking_engine = WalkingEngine();
 	Odometry odo = Odometry();
-	signal(SIGINT, ctrlc_handler);
-	signal(SIGTERM, ctrlc_handler);
-	io_service io_service;
-	local::stream_protocol::socket socket(io_service);
-	socket.connect("/tmp/robocup");
-	constexpr int max_len = 100000;
-	char data[max_len] = {'\0'};
-	boost::system::error_code ec;
-    Fila dadoX, dadoY, dadoZ, dadoP, dadoR;
-    LolaFrameHandler frame_handler;
+	Fila dadoX, dadoY, dadoZ, dadoP, dadoR;
+    LolaFrameHandler& frame_handler;
+    Joints& joints = frame_handler.actuator_frame.joints; //Juntas
+	int pra_frente = 0;
+	int pro_lado = 0;
+
     // Sensores -- fresh
-    LolaSensorFrame& sensor_frame = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
-	Joints& joints = frame_handler.actuator_frame.joints; //Juntas
-	Leds& leds = frame_handler.actuator_frame.leds; // Leds
-	Battery& battery = sensor_frame.battery; // Bateria
-	FSR& fsr = sensor_frame.fsr; // FSR: sensores dos pés
-	IMU& imu = sensor_frame.imu; // IMU: Accel e GYR
-    float fsrR[4] = {fsr.right.fl, fsr.right.fr, fsr.right.rl, fsr.right.rr};
-	float fsrL[4] = {fsr.left.fl, fsr.left.fr, fsr.left.rl, fsr.left.rr};
 	float filterX = 0, filterY = 0, filterZ = 0, filterP = 0, filterR = 0;
 	float last_filterX = 0, last_filterY = 0, last_filterZ = 0, last_filterPitch = 0, last_filterRoll = 0;
 public:
@@ -87,20 +76,24 @@ public:
 
     Lola_state getState();	// Retorna o estado atual
     Lola_state getLastState();	// Retorna o ultimo estado
-    bool standingBegin();	// Levantar(inicial)
-	bool isStand();	// Verifica se o NAO está de pé
-    void stand();	// Ações
-	bool isFalling();	// Verifica se o NAO está caíndo
-	void falling();	// Ações
-	bool isFallen();	// Verifica se o NAO está caído
+    bool standingBegin(LolaSensorFrame sensor_frame);	// Levantar(inicial)
+	bool isStand(float fsrR[], float fsrL[]);	// Verifica se o NAO está de pé
+    void stand(LolaSensorFrame sensor_frame, float fsrR[], float fsrL[]);	// Ações
+	bool isFalling(float fsrR[], float fsrL[]);	// Verifica se o NAO está caíndo
+	void falling(float fsrR[], float fsrL[]);	// Ações
+	bool isFallen(float fsrR[], float fsrL[]);	// Verifica se o NAO está caído
 	void fallen();	// Ações
 	bool isStanding();	// Verifica se o NAO está levantando
-	void standing();	// Ações
-	void finish();	//Ação de finalização
-	void shutdown(); // Para o código;	
+	void standing(float fsrR[], float fsrL[]);	// Ações
+	void sit(LolaSensorFrame sensor_frame);	//Ação de finalização	
 
-	bool seguro();
-	void fresh();
+	bool seguro(float fsrR[], float fsrL[]);
+	void fresh(IMU imu);
 };
+
+NAO::NAO(){
+    setState(Lola_state::begin);
+    setLastState();
+}
 
 #endif
