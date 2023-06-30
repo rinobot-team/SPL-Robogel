@@ -1,12 +1,8 @@
 project(GameController CXX)
 
-add_subdirectory(SPLDefault)
-
 set(srcs
-    GameController.hpp
-    GameController.cpp
-    TcpUdpSocket.hpp
-    TcpUdpSocket.cpp
+    RoboCupGameControlData.hpp
+    RoboCupGameControlData.cpp
 )
 add_library(${PROJECT_NAME} ${srcs})
 # target_include_directories(utils INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/utils)
