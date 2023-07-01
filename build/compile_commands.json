@@ -1,0 +1,77 @@
+[
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/. -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/msgpack/include -I/home/y3t/RoboGel/SPL-Robogel/utils/. -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/. -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/../utils -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/../utils -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/eigen/eigen-3.4.0  -g   -O3 -Wall -march=core2 -mtune=core2 -mfpmath=sse -msse4 -ggdb -std=gnu++1z -o CMakeFiles/Robogel.dir/main.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/main.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/main.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/LolaConnector",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/. -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/../utils -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/msgpack/include -I/home/y3t/RoboGel/SPL-Robogel/utils/.  -g   -O3 -Wall -march=core2 -mtune=core2 -mfpmath=sse -msse4 -ggdb -std=gnu++14 -o CMakeFiles/lola_connector.dir/fila.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/LolaConnector/fila.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/LolaConnector/fila.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/LolaConnector",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/. -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/../utils -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/msgpack/include -I/home/y3t/RoboGel/SPL-Robogel/utils/.  -g   -O3 -Wall -march=core2 -mtune=core2 -mfpmath=sse -msse4 -ggdb -std=gnu++14 -o CMakeFiles/lola_connector.dir/leds.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/LolaConnector/leds.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/LolaConnector/leds.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/LolaConnector",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/. -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/../utils -I/home/y3t/RoboGel/SPL-Robogel/LolaConnector/msgpack/include -I/home/y3t/RoboGel/SPL-Robogel/utils/.  -g   -O3 -Wall -march=core2 -mtune=core2 -mfpmath=sse -msse4 -ggdb -std=gnu++14 -o CMakeFiles/lola_connector.dir/lola_frame.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/LolaConnector/lola_frame.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/LolaConnector/lola_frame.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/HTWKMotion",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/../utils -I/home/y3t/RoboGel/SPL-Robogel/utils/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/eigen/eigen-3.4.0  -g   -std=gnu++1z -o CMakeFiles/WalkingEngine.dir/ankle_balancer.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/HTWKMotion/ankle_balancer.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/ankle_balancer.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/HTWKMotion",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/../utils -I/home/y3t/RoboGel/SPL-Robogel/utils/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/eigen/eigen-3.4.0  -g   -std=gnu++1z -o CMakeFiles/WalkingEngine.dir/arm_controller.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/HTWKMotion/arm_controller.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/arm_controller.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/HTWKMotion",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/../utils -I/home/y3t/RoboGel/SPL-Robogel/utils/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/eigen/eigen-3.4.0  -g   -std=gnu++1z -o CMakeFiles/WalkingEngine.dir/sit_motion.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/HTWKMotion/sit_motion.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/sit_motion.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/HTWKMotion",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/../utils -I/home/y3t/RoboGel/SPL-Robogel/utils/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/eigen/eigen-3.4.0  -g   -std=gnu++1z -o CMakeFiles/WalkingEngine.dir/walking_engine.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/HTWKMotion/walking_engine.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/walking_engine.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/HTWKMotion",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/../utils -I/home/y3t/RoboGel/SPL-Robogel/utils/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/eigen/eigen-3.4.0  -g   -std=gnu++1z -o CMakeFiles/WalkingEngine.dir/behavior.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/HTWKMotion/behavior.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/behavior.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/HTWKMotion/kinematics",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/. -I/home/y3t/RoboGel/SPL-Robogel/utils/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/eigen/eigen-3.4.0  -g   -std=gnu++14 -o CMakeFiles/Kinematics.dir/InverseKinematics.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/InverseKinematics.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/InverseKinematics.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/HTWKMotion/kinematics",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/. -I/home/y3t/RoboGel/SPL-Robogel/utils/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/eigen/eigen-3.4.0  -g   -std=gnu++14 -o CMakeFiles/Kinematics.dir/ForwardKinematic.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/ForwardKinematic.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/ForwardKinematic.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/HTWKMotion/kinematics",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/. -I/home/y3t/RoboGel/SPL-Robogel/utils/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/eigen/eigen-3.4.0  -g   -std=gnu++14 -o CMakeFiles/Kinematics.dir/Pose3D.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/Pose3D.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/Pose3D.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/HTWKMotion/kinematics",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/. -I/home/y3t/RoboGel/SPL-Robogel/utils/. -I/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/eigen/eigen-3.4.0  -g   -std=gnu++14 -o CMakeFiles/Kinematics.dir/PositionFeet.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/PositionFeet.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/HTWKMotion/kinematics/PositionFeet.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/GameController",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/GameController/.  -g   -std=gnu++1z -o CMakeFiles/GameController.dir/RoboCupGameControlData.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/GameController/RoboCupGameControlData.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/GameController/RoboCupGameControlData.cpp"
+},
+{
+  "directory": "/home/y3t/RoboGel/SPL-Robogel/build/GameController",
+  "command": "/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-g++ --sysroot=/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/core2-32-sbr-linux   -I/home/y3t/RoboGel/SPL-Robogel/GameController/.  -g   -std=gnu++1z -o CMakeFiles/GameController.dir/GameController.cpp.o -c /home/y3t/RoboGel/SPL-Robogel/GameController/GameController.cpp",
+  "file": "/home/y3t/RoboGel/SPL-Robogel/GameController/GameController.cpp"
+}
+]

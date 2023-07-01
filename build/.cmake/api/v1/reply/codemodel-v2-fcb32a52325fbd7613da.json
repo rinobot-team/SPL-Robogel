@@ -1,0 +1,312 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3,
+						7,
+						8
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "LolaConnector",
+					"childIndexes" : 
+					[
+						2
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "LolaConnector",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "LolaConnector/msgpack",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "LolaConnector/msgpack"
+				},
+				{
+					"build" : "HTWKMotion",
+					"childIndexes" : 
+					[
+						4,
+						5,
+						6
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "HTWKMotion",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "HTWKMotion/cpp17",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 4,
+					"source" : "HTWKMotion/cpp17"
+				},
+				{
+					"build" : "HTWKMotion/eigen",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 5,
+					"source" : "HTWKMotion/eigen"
+				},
+				{
+					"build" : "HTWKMotion/kinematics",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 6,
+					"source" : "HTWKMotion/kinematics",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "utils",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 7,
+					"source" : "utils",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "GameController",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 8,
+					"source" : "GameController",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						3,
+						7,
+						8
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Robogel",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						2
+					],
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "lola_connector",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "msgpack",
+					"parentIndex" : 1
+				},
+				{
+					"childIndexes" : 
+					[
+						4,
+						5,
+						6
+					],
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "WalkingEngine",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "cpp17",
+					"parentIndex" : 3
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5
+					],
+					"name" : "Eigen",
+					"parentIndex" : 3
+				},
+				{
+					"directoryIndexes" : 
+					[
+						6
+					],
+					"name" : "Kinematics",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "utils",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						8
+					],
+					"name" : "GameController",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 8,
+					"id" : "GameController::@0f03e324aabc9768faec",
+					"jsonFile" : "target-GameController-Debug-64a8cb0ad1b9798fd741.json",
+					"name" : "GameController",
+					"projectIndex" : 8
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "Kinematics::@304445aa381cd8ed447c",
+					"jsonFile" : "target-Kinematics-Debug-1381d135e2d16d642a7e.json",
+					"name" : "Kinematics",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Robogel::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Robogel-Debug-90f7446b4a90c276b2b4.json",
+					"name" : "Robogel",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "WalkingEngine::@3c3c2198d619b8597ebc",
+					"jsonFile" : "target-WalkingEngine-Debug-269a1dcf15652bb0a705.json",
+					"name" : "WalkingEngine",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "lola_connector::@4270f1b956781fdb5e48",
+					"jsonFile" : "target-lola_connector-Debug-e60388dd2606b35a4bf8.json",
+					"name" : "lola_connector",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "utils::@c810615cce0f7acb82dc",
+					"jsonFile" : "target-utils-Debug-1f9557b2770db2502001.json",
+					"name" : "utils",
+					"projectIndex" : 7
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/y3t/RoboGel/SPL-Robogel/build",
+		"source" : "/home/y3t/RoboGel/SPL-Robogel"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

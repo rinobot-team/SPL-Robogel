@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/y3t/RoboGel/SPL-Robogel/GameController/GameController.cpp
+GameController.hpp
+/home/y3t/RoboGel/SPL-Robogel/GameController/GameController.hpp
+arpa/inet.h
+-
+ctime
+-
+dirent.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+sys/poll.h
+-
+netinet/in.h
+-
+netdb.h
+-
+string
+-
+time.h
+-
+blackboard/Blackboard.hpp
+/home/y3t/RoboGel/SPL-Robogel/GameController/blackboard/Blackboard.hpp
+
+/home/y3t/RoboGel/SPL-Robogel/GameController/GameController.hpp
+vector
+-
+RoboCupGameControlData.hpp
+/home/y3t/RoboGel/SPL-Robogel/GameController/RoboCupGameControlData.hpp
+blackboard/AccessPoint.hpp
+/home/y3t/RoboGel/SPL-Robogel/GameController/blackboard/AccessPoint.hpp
+
+/home/y3t/RoboGel/SPL-Robogel/GameController/RoboCupGameControlData.hpp
+stdint.h
+-
+

@@ -1,0 +1,2 @@
+/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-ar qc liblola_connector.a  CMakeFiles/lola_connector.dir/fila.cpp.o CMakeFiles/lola_connector.dir/leds.cpp.o CMakeFiles/lola_connector.dir/lola_frame.cpp.o
+/home/y3t/RoboGel/SPL-Robogel/softwares/ctc-linux64-atom-2.8.5.10/yocto-sdk/sysroots/x86_64-naoqisdk-linux/usr/bin/i686-sbr-linux/i686-sbr-linux-ranlib liblola_connector.a
