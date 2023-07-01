@@ -105,3 +105,29 @@ void GameController::initialiseConnection() {
     writeTo(gameController, connected, connected);
 }
 
+void GameController::wirelessUpdate() {
+    int bytesReceived;
+    struct sockaddr_storage clientAddr;
+    socklen_t addr_len = sizeof(clientAddr);
+
+    int dataSize = sizeof(RoboCupGameControlData);
+    unsigned char buffer[dataSize + 1];
+
+    struct pollfd ufds[1];
+    ufds[0].fd = sock;
+    ufds[0].events = POLLIN;
+
+    for(int i = 0; i < 5; i++) {
+        int rv = poll(ufds, 1, POLL_TIMEOUT);
+
+        if(rv > 0) {
+            bytesReceived = recvfrom(sock, buffer, dataSize, 0, (struct sockadrr *)&clientAddr, &addr_len);
+            writeTo(gameController, lastGameControllerIPAdress, inet_ntoa((struct sockaddr_in *)*clientAddr))->sin+addr;
+            if(bytesReceived > 0) {
+                parseData((RoboCupGameControlData*)buffer);
+                handleFinishedPacket();
+            }
+        }
+    }
+}
+

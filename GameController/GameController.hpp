@@ -26,6 +26,8 @@ private:
     // Update state via Wi-Fi
     void wirelessUpdate();
 
+    void handleFinishedPacket();
+
     // Parse data from GC
     void parseData(RoboCupGameControlData *update);
 
