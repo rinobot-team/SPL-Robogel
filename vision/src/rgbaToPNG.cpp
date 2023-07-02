@@ -15,6 +15,9 @@ void saveRGBAtoPNG(const uint8_t* bufferRGBA, int width, int height, char* fileN
 }
 
 char* generateFileName(int count) {
+
+    std::string filePath = "/home/nao/cameraimages/";
+
     std::time_t currTime = std::time(nullptr);
     std::tm* localTime = std::localtime(&currTime);
 
@@ -24,6 +27,7 @@ char* generateFileName(int count) {
     dateTimeStr.append("::IMG-");
     dateTimeStr.append(std::to_string(count));
     dateTimeStr.append(".png");
+    dateTimeStr = filePath + dateTimeStr;
     char* dateTimeChar = new char[dateTimeStr.size() + 1];
     std::strcpy(dateTimeChar, dateTimeStr.c_str());
 
