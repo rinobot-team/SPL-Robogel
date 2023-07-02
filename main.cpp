@@ -5,6 +5,7 @@
 #include "HTWKMotion/walking_engine.h"
 #include "utils/imu.h"
 #include "LolaConnector/fila.h"
+#include "HTWKMotion/behavior.h"
 
 #include <cmath>
 #include <csignal>
@@ -48,10 +49,12 @@ using namespace std;
 		//Sentado
 		sit
 	};
+
 	Lola_state lola_state = Lola_state::begin;
 	Lola_state lola_last_state;
-	float filterX = 0, filterY = 0, filterZ = 0;
-	float last_filterX = 0, last_filterY = 0, last_filterZ = 0; 
+
+	float filterX = 0, filterY = 0, filterZ = 0, filterP = 0, filterR = 0;
+	float last_filterX = 0, last_filterY = 0, last_filterZ = 0, last_filterPitch = 0, last_filterRoll = 0; 
 
 bool seguro(float fsrR[], float fsrL[]){
 	float footR = 0;
@@ -119,6 +122,9 @@ bool isStanding(IMU imu){
 			return false;
 		}
 	}
+	else{
+		return false;
+	}
 }
 
 bool isFalling(IMU imu, float fsrR[], float fsrL[]){
@@ -178,11 +184,54 @@ bool isFalling(IMU imu, float fsrR[], float fsrL[]){
 	}
 }
 
+void freshFilter(Fila dadoX, Fila dadoY, Fila dadoZ, Fila dadoP, Fila dadoR, IMU imu){
+	//Filtro Accel
+	last_filterX = filterX;
+	last_filterY = filterY;
+	last_filterZ = filterZ;
+	dadoX.freshFila(imu.accel.x);
+	dadoY.freshFila(imu.accel.y);
+	dadoZ.freshFila(imu.accel.z);
+	filterX = dadoX.filter();
+	filterY = dadoY.filter();
+	filterZ = dadoZ.filter();
+
+	//Filtro Gyr
+	last_filterPitch = filterP;
+	last_filterRoll = filterR;
+	dadoP.freshFila(imu.gyr.pitch);
+	dadoR.freshFila(imu.gyr.roll);
+	//filterP = dadoP.filterRP();
+	//filterR = dadoR.filterRP();
+}
+
+void bateryStatus(Battery battery, Leds* leds){
+	// Bateria atual
+	cout << "Bateria: " << battery.charge << '\n';
+	// Bateria 75%-100%
+    if(battery.charge >= 0.75){            
+        leds->eyes.right.fill(RGB::GREEN);
+    }
+	// Bateria 50%-75%
+    else if(battery.charge >= 0.5 && battery.charge < 0.75){            
+        leds->eyes.right.fill(RGB::YELLOW);
+    }
+	// Bateria 25%-50%
+    else if(battery.charge >= 0.25 && battery.charge < 0.5){
+        leds->eyes.right.fill(RGB::ORANGE);
+    }
+	// Bateria 1%-25%
+    else{
+        leds->eyes.right.fill(RGB::RED);
+    }
+}
+
 void ctrlc_handler(int) {
 	lola_shutdown = true;
 }
 
 int main(int, char*[]) {
+	// Declarações / Atribuições
 	auto sit_motion = SitMotion();
 	auto ankle_balancer = AnkleBalancer();
 	auto arm_controller = ArmController();
@@ -198,57 +247,43 @@ int main(int, char*[]) {
 
 	socket.connect("/tmp/robocup");
 
-	Fila dadoX, dadoY, dadoZ;
+	Fila dadoX, dadoY, dadoZ, dadoP, dadoR;
 	constexpr int max_len = 100000;
 	char data[max_len] = {'\0'};
 	boost::system::error_code ec;
 	LolaFrameHandler frame_handler;
+
 	int pra_frente = 0;
 	int pro_lado = 0;
+
+	Behavior estadoDeGame;
+	
+
 	while (true) {
-		//Declarações
+		// Declarações / Atribuições de sensores
 		const LolaSensorFrame& sensor_frame = frame_handler.unpack(data, socket.receive(boost::asio::buffer(data, max_len)));
 		auto& joints = frame_handler.actuator_frame.joints; //Juntas
 		auto& leds = frame_handler.actuator_frame.leds; // Leds
 		auto& battery = sensor_frame.battery; // Bateria
 		auto& fsr = sensor_frame.fsr; // FSR: sensores dos pés
 		auto& imu = sensor_frame.imu; // IMU: Accel e GYR
-		auto& gyr = imu.gyr;// GYR
-		//Vetor dos FSR
+
+		// Vetor dos FSR
 		float fsrR[4] = {fsr.right.fl, fsr.right.fr, fsr.right.rl, fsr.right.rr};
 		float fsrL[4] = {fsr.left.fl, fsr.left.fr, fsr.left.rl, fsr.left.rr};
-		//Atualizações do filtro
-		last_filterX = filterX;
-		last_filterY = filterY;
-		last_filterZ = filterZ;
-		dadoX.freshFila(imu.accel.x);
-		dadoY.freshFila(imu.accel.y);
-		dadoZ.freshFila(imu.accel.z);
-		filterX = dadoX.filter();
-		filterY = dadoY.filter();
-		filterZ = dadoZ.filter();
+
+		// Atualizações do filtro
+		freshFilter(dadoX, dadoY, dadoZ, dadoP, dadoR, imu); //Atualizar parâmetros conforme aumentar os filtros
+
+		// Atualização bateria
+		bateryStatus(battery, &leds);
 
 		/*cout << "Filtro X: " << filterX << endl;
 		cout << "X" << imu.accel.x << endl;
 		cout << "Filtro Y: " << filterY << endl;
 		cout << "Y" << imu.accel.y << endl;
 		cout << "Filtro Z: " << filterZ << endl;
-		cout << "Z" << imu.accel.z << endl;*/
-
-		//Status battery
-		//cout << "Bateria: " << battery.charge << '\n';
-        if(battery.charge >= 0.75){            
-            leds.eyes.right.fill(RGB::GREEN);
-        }
-        else if(battery.charge >= 0.5 && battery.charge < 0.75){            
-            leds.eyes.right.fill(RGB::YELLOW);
-        }
-        else if(battery.charge >= 0.25 && battery.charge < 0.5){
-            leds.eyes.right.fill(RGB::ORANGE);
-        }
-        else{
-            leds.eyes.right.fill(RGB::RED);
-        }
+		cout << "Z" << imu.accel.z << endl;*/		
 		
 		//TODO: Insert walking engine and stuff here. :)
 		if (/*client_connected &&*/ !lola_shutdown && !lola_sit_forever && (lola_state == Lola_state::begin || lola_state == Lola_state::standingBegin || lola_state == Lola_state::stand)){
@@ -265,7 +300,7 @@ int main(int, char*[]) {
 				lola_state = Lola_state::stand;
 				cout << "Stand!" << endl;
 
-				//joints.legs = walking_engine.proceed(sensor_frame.fsr, imu_filter.angles.pitch, imu_filter.angles.roll, ankle_balancer,
+				//joints.legs = walking_engine.proceed(sensor_frame.fsr, imu_filter.angles.pitch (0.1), imu_filter.angles.roll (0), ankle_balancer,
 
 				joints.arms = arm_controller.proceed();
 				joints.legs = walking_engine.proceed(sensor_frame.fsr, 0.1, 0, ankle_balancer,sensor_frame.imu.gyr.yaw, &odo, &arm_controller);
@@ -274,25 +309,23 @@ int main(int, char*[]) {
 				
 				if(seguro(fsrR, fsrL)){
 					cout << "No chao!" << endl;
-					if(pra_frente < 1000 && pro_lado == 0){
-						//cout << "Pra frente " << pra_frente << endl;
+					/*if(pra_frente < 400 && pro_lado == 0){
 						walking_engine.setRequest(0.07, 0, 0, 0.1);
 						pra_frente++;
 					}
-					/*else if(pro_lado < 400 && pra_frente == 400){
-						//cout << "Pro lado " << pro_lado << endl;
+					else if(pro_lado < 400 && pra_frente == 400){
 						walking_engine.setRequest(0.07, 0, 1, 0.1);
 						pro_lado++;
-					}*/
+					}
 					else{
 						joints.head[HeadPitch] = {.angle = 0.1f, .stiffness = 1.f};
 						lola_sit_forever = true;
-					}
+					}*/
 				}
 				else{
-					//cout << "Fora do chao!" << endl;
-					//walking_engine.reset();
-					walking_engine.setRequest(0, 0, 0, 0.1);
+					cout << "Fora do chao!" << endl;
+					walking_engine.reset();
+					
 					
 				}
 			}
@@ -301,6 +334,7 @@ int main(int, char*[]) {
 		else if(lola_state == Lola_state::fallingF || lola_state == Lola_state::fallingB || lola_state == Lola_state::fallingR || lola_state == Lola_state::fallingL){
 			if(lola_state == Lola_state::fallingF){
 				cout << "Falling Front" << endl;
+				//isfalling()
 				fallen(imu, fsrR, fsrL);
 			}
 			else if(lola_state == Lola_state::fallingB){
@@ -317,8 +351,9 @@ int main(int, char*[]) {
 			}
 		}
 		//FALLEN
-		else if(lola_state == Lola_state::fallen && (lola_last_state == Lola_state::fallingB || lola_last_state == Lola_state::fallingF || lola_last_state == Lola_state::fallingR || lola_last_state == Lola_state::fallingL)){
+		else if(lola_state == Lola_state::fallen){
 			cout << "FALLEN!!!" << endl;
+			//fallen();
 			isStanding(imu);
 		}
 		//STANDING FRONT
@@ -354,7 +389,24 @@ int main(int, char*[]) {
 			//walking_engine.reset();
 			joints.arms = arm_controller.proceed();
 		}
-
+		// Testing GameState
+		if(estadoDeGame.getEstadoDeJogo()==GameState::UNSTIFF){
+			RGB blue = Colors::BLUE;
+			estadoDeGame.setEyeColor(blue);
+			joints.legs = sit_motion.sitDown(sensor_frame.joints.legs, ankle_balancer, &arm_controller);
+			set_stiffness(-1.f, &frame_handler.actuator_frame.joints.legs);
+			set_stiffness(-1.f, &frame_handler.actuator_frame.joints.arms);
+			set_stiffness(-1.f, &frame_handler.actuator_frame.joints.head);
+			frame_handler.actuator_frame.leds.eyes.left.fill(estadoDeGame.geteyecolor());
+		}
+		else if(estadoDeGame.getEstadoDeJogo()==GameState::INITIAL){
+			RGB off = Colors::OFF;
+			estadoDeGame.setEyeColor(off);
+			joints.legs = sit_motion.getUp(sensor_frame.joints.legs, ankle_balancer, &arm_controller);
+			joints.arms = arm_controller.proceed();
+			walking_engine.reset();
+			frame_handler.actuator_frame.leds.eyes.left.fill(estadoDeGame.geteyecolor());
+		}
 		// Set the head pitch to something.
 		char* buffer;
 		size_t size;
@@ -371,9 +423,6 @@ int main(int, char*[]) {
 			break;
 		}
 		
-		Behavior estadoDeJogo;
-		frame_handler.actuator_frame.leds.eyes.left.fill(estadoDeJogo.geteyecolor());
-
 	}
 	return 0;
 }
