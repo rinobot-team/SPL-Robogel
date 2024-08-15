@@ -50,8 +50,8 @@ int clamp(float value) {
 }
 
 void invertImage(uint8_t* bufferRGBA, int width, int height) {
-    const size_t bufferSize = width * height * 4;
     const size_t pixelSize = 4; // Each pixel size in bytes
+    const size_t bufferSize = width * height * pixelSize;
     const size_t numPixels = bufferSize / pixelSize;
 
     for(size_t i = 0; i < numPixels / 2; ++i) {
