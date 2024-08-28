@@ -305,7 +305,7 @@ int main(int, char*[]) {
 				
 				if(seguro(fsrR, fsrL)){
 					cout << "No chao!" << endl;
-					/*if(pra_frente < 400 && pro_lado == 0){
+					if(pra_frente < 400 && pro_lado == 0){
 						walking_engine.setRequest(0.07, 0, 0, 0.1);
 						pra_frente++;
 					}
@@ -316,7 +316,7 @@ int main(int, char*[]) {
 					else{
 						joints.head[HeadPitch] = {.angle = 0.1f, .stiffness = 1.f};
 						lola_sit_forever = true;
-					}*/
+					}
 				}
 				else{
 					cout << "Fora do chao!" << endl;
