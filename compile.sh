@@ -7,6 +7,6 @@ set -o nounset # corre do script caso tu tente usar uma variavel não definida a
 ROBOGEL_CHECKOUT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 mkdir -p "${ROBOGEL_CHECKOUT_DIR}/build"
 cd "${ROBOGEL_CHECKOUT_DIR}/build"
-cmake .. -DCMAKE_TOOLCHAIN_FILE="${ROBOGEL_CHECKOUT_DIR}/cross-config.cmake"
+cmake .. -DCMAKE_TOOLCHAIN_FILE="../cross-config.cmake"
 make
 
