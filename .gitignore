@@ -30,19 +30,15 @@
 *.exe
 *.out
 *.app
-
-<<<<<<< HEAD
-# Depracated / Dead Code
 *.old
 *.backup
 
 # Toolchain
-/softwares/ctc-linux64-atom-2.8.5.10
+/softwares
 /vision/build
+/HTWKMotion/eigen/eigen.zip
 
 # Debuggig
 .vscode
-=======
 build/
 LolaConnector/msgpack
->>>>>>> motion-Marcelo
